@@ -1,0 +1,31 @@
+source :core
+source :system
+source :nginx
+source :redis
+source :extras
+source :app
+source :db
+<%- @packages.each do |package| -%>
+<%- if package.exports.any? -%>
+
+# <%= package.name %>
+<%- package.exports.each do |export| -%>
+<%= export.to_ruby %>
+<%- end -%>
+<%- end -%>
+<%- end -%>
+
+provision [
+  'system',
+  'nginx',
+  'redis',
+  'app',
+  'app/rvm',
+  'app/sidekiq',
+  'app/puma',
+  'app/puma/nginx',
+  'app/pg',
+  'db',
+  'db/pg',
+  'extras'
+]

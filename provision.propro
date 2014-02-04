@@ -1,0 +1,113 @@
+source :core
+source :system
+source :nginx
+source :redis
+source :extras
+source :app
+source :db
+
+# core/propro
+set :propro_log_file, "/root/provision.log"
+set :propro_disable_log, false
+
+# system
+set :system_hostname, nil
+set :system_fqdn, nil
+set :system_admin_authorized_github_users, nil
+set :system_admin_sudo_password, nil
+set :system_private_ip, nil
+set :system_admin_user, "admin"
+set :system_shmall_percent, 0.75
+set :system_shmmax_percent, 0.5
+set :system_private_netmask, "255.255.128.0"
+set :system_base_packages, ["curl", "vim-nox", "less", "htop", "build-essential", "openssl"]
+set :system_timezone, "Etc/UTC"
+set :system_locale, "en_US.UTF-8"
+set :system_allow_ports, ["www", "443", "ssh"]
+set :system_limit_ports, "ssh"
+set :system_allow_private_ips, nil
+set :system_allow_private_ports, ["5432", "6379"]
+
+# system/sources
+set :system_sources_pg_key_url, "http://apt.postgresql.org/pub/repos/apt/ACCC4CF8.asc"
+
+# nginx
+set :nginx_version, "1.4.4"
+set :nginx_user, "nginx"
+set :nginx_configure_opts, ["--with-http_ssl_module", "--with-http_gzip_static_module"]
+set :nginx_conf_file, "/etc/nginx.conf"
+set :nginx_etc_dir, "/etc/nginx"
+set :nginx_log_dir, "/var/log/nginx"
+set :nginx_access_log_file_name, "access.log"
+set :nginx_error_log_file_name, "error.log"
+set :nginx_dependencies, ["libpcre3-dev", "libssl-dev"]
+set :nginx_worker_count, "$(get-processor-count)"
+set :nginx_pid_file, "/var/run/nginx.pid"
+set :nginx_client_max_body_size, "5m"
+set :nginx_worker_connections, 2000
+
+# redis
+set :redis_version, "2.8.4"
+set :redis_user, "redis"
+set :redis_conf_file, "/etc/redis.conf"
+set :redis_data_dir, "/var/lib/redis"
+set :redis_force_64bit, false
+set :redis_bind_ip, nil
+
+# extras
+set :extra_packages, nil
+
+# app
+set :app_domain, nil
+set :app_authorized_github_users, nil
+set :app_user, "deploy"
+set :apps_dir, "/sites"
+
+# app/rvm
+set :app_rvm_channel, "stable"
+set :app_rvm_ruby_version, "2.0.0"
+
+# app/sidekiq
+set :app_sidekiq_config_dir_relative, "config/sidekiq"
+set :app_sidekiq_config_file_name, "sidekiq.yml"
+set :app_sidekiq_pid_file_relative, "tmp/sidekiq/worker.pid"
+set :app_sidekiq_conf_file, "/etc/sidekiq.conf"
+
+# app/puma
+set :app_puma_config_dir_relative, "config/puma"
+set :app_puma_config_file_name, "puma.rb"
+set :app_puma_conf_file, "/etc/puma.conf"
+
+# app/puma/nginx
+set :app_puma_nginx_access_log_file_name, "access.log"
+set :app_puma_nginx_error_log_file_name, "error.log"
+
+# db
+set :db_name, nil
+set :db_user, nil
+
+# db/pg
+set :db_pg_version, 9.3
+set :db_pg_extensions, ["btree_gin", "btree_gist", "fuzzystrmatch", "hstore", "intarray", "ltree", "pg_trgm", "tsearch2", "unaccent"]
+set :db_pg_config_file, "/etc/postgresql/$DB_PG_VERSION/main/postgresql.conf"
+set :db_pg_hba_file, "/etc/postgresql/$DB_PG_VERSION/main/pg_hba.conf"
+set :db_pg_tune_version, "0.9.3"
+set :db_pg_tune_url, "http://pgfoundry.org/frs/download.php/2449/pgtune-$DB_PG_TUNE_VERSION.tar.gz"
+set :db_pg_user, "postgres"
+set :db_pg_bind_ip, nil
+set :db_pg_trust_ips, nil
+
+provision [
+  'system',
+  'nginx',
+  'redis',
+  'app',
+  'app/rvm',
+  'app/sidekiq',
+  'app/puma',
+  'app/puma/nginx',
+  'app/pg',
+  'db',
+  'db/pg',
+  'extras'
+]

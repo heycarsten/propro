@@ -1,0 +1,6 @@
+#!/usr/bin/env ruby
+
+require 'propro'
+require 'propro/cli'
+
+Propro::CLI.start
