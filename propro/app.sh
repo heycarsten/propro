@@ -1,0 +1,77 @@
+#!/bin/bash
+#
+# Provides tools and commands for deploying a Rack application with Capistrano
+#
+export APP_DOMAIN="" # required
+export APP_AUTHORIZED_GITHUB_USERS="" # required
+export APP_USER="deploy"
+export APPS_DIR="/sites"
+
+function get-app-dir {
+  "$APPS_DIR/$APP_DOMAIN"
+}
+
+function get-app-shared-dir {
+  "$(get-app-dir)/shared"
+}
+
+function get-app-shared-tmp-dir {
+  "$(get-app-shared-dir)/tmp"
+}
+
+function get-app-shared-log-dir {
+  "$(get-app-shared-dir)/log"
+}
+
+function get-app-shared-sockets-dir {
+  "$(get-app-shared-dir)/sockets"
+}
+
+function get-app-config-dir {
+  "$(get-app-dir)/config"
+}
+
+function get-app-current-dir {
+  "$(get-app-deploy-dir)/current"
+}
+
+function get-app-releases-dir {
+  "$(get-app-dir)/releases"
+}
+
+function get-app-current-public-dir {
+  "$(get-app-current-dir)/public"
+}
+
+function get-app-id {
+  path-to-id $APP_DOMAIN
+}
+
+# $1 path
+function app-mkdir {
+  local path="$(get-app-dir)/$1"
+  announce-item "$path"
+  as-user-mkdir $APP_USER "$path"
+}
+
+function app-create-user {
+  add-user $APP_USER
+  add-pubkeys-from-github $APP_USER $APP_AUTHORIZED_KEYS_GITHUB_USERS
+}
+
+function app-create-dirs {
+  announce "Building app directory tree"
+  app-mkdir $APPS_DIR
+  app-mkdir "$(get-app-dir)"
+  app-mkdir "$(get-app-releases-dir)"
+  app-mkdir "$(get-app-config-dir)"
+  app-mkdir "$(get-app-shared-dir)"
+  app-mkdir "$(get-app-shared-tmp-dir)"
+  app-mkdir "$(get-app-shared-log-dir)"
+  app-mkdir "$(get-app-shared-sockets-dir)"
+}
+
+function provision-app {
+  app-create-user
+  app-create-dirs
+}
