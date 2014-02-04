@@ -1,5 +1,6 @@
 # Propro
-## Pro is good and we have a lot of it
+
+**__Pro is good and we have a lot of it__**
 
 Provision Ubuntu 12.04 LTS servers with Bash. And a little Ruby for niceness.
 
