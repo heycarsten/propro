@@ -1,9 +1,9 @@
-#!/bin/bash
+#!/usr/bin/env bash
 #
 # Provides tools and commands for deploying a Rack application with Capistrano
 #
 export APP_DOMAIN="" # required
-export APP_AUTHORIZED_GITHUB_USERS="" # required
+export APP_AUTHORIZED_GITHUB_USERS="" # required "heycarsten,ghedamat"
 export APP_USER="deploy"
 export APPS_DIR="/sites"
 
@@ -56,7 +56,7 @@ function app-mkdir {
 
 function app-create-user {
   add-user $APP_USER
-  add-pubkeys-from-github $APP_USER $APP_AUTHORIZED_KEYS_GITHUB_USERS
+  add-pubkeys-from-github $APP_USER "$APP_AUTHORIZED_KEYS_GITHUB_USERS"
 }
 
 function app-create-dirs {

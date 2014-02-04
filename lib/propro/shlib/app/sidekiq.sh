@@ -1,24 +1,24 @@
-#!/bin/bash
+#!/usr/bin/env bash
 # requires app.sh
 
-export SIDEKIQ_CONFIG_DIR_RELATIVE="config/sidekiq"
-export SIDEKIQ_CONFIG_FILE_NAME="sidekiq.yml"
-export SIDEKIQ_PID_FILE_RELATIVE="tmp/sidekiq/worker.pid"
-export SIDEKIQ_CONF_FILE="/etc/sidekiq.conf"
+export APP_SIDEKIQ_CONFIG_DIR_RELATIVE="config/sidekiq"
+export APP_SIDEKIQ_CONFIG_FILE_NAME="sidekiq.yml"
+export APP_SIDEKIQ_PID_FILE_RELATIVE="tmp/sidekiq/worker.pid"
+export APP_SIDEKIQ_CONF_FILE="/etc/sidekiq.conf"
 
-SIDEKIQ_CONFIG_FILE_RELATIVE="$SIDEKIQ_CONFIG_DIR_RELATIVE/$SIDEKIQ_CONFIG_FILE_NAME"
+APP_SIDEKIQ_CONFIG_FILE_RELATIVE="$APP_SIDEKIQ_CONFIG_DIR_RELATIVE/$APP_SIDEKIQ_CONFIG_FILE_NAME"
 
-function provision-sidekiq-service {
+function provision-app-sidekiq {
   section "Sidekiq"
   announce "Create upstart for Sidekiq Manager"
   tee /etc/init/sidekiq-manager.conf <<EOT
 description "Manages the set of sidekiq processes"
 start on runlevel [2345]
 stop on runlevel [06]
-env SIDEKIQ_CONF="$SIDEKIQ_CONF_FILE"
+env APP_SIDEKIQ_CONF="$APP_SIDEKIQ_CONF_FILE"
 
 pre-start script
-  for i in `cat \$SIDEKIQ_CONF`; do
+  for i in `cat \$APP_SIDEKIQ_CONF`; do
     app=`echo \$i | cut -d , -f 1`
     logger -t "sidekiq-manager" "Starting \$app"
     start sidekiq app=\$app
@@ -42,7 +42,7 @@ exec /bin/bash <<EOTT
   source \$HOME/.rvm/scripts/rvm
   logger -t sidekiq "Starting worker: \$app"
   cd \$app
-  exec bundle exec sidekiq -C $SIDEKIQ_CONFIG_FILE_RELATIVE -P $SIDEKIQ_PID_FILE_RELATIVE
+  exec bundle exec sidekiq -C $APP_SIDEKIQ_CONFIG_FILE_RELATIVE -P $APP_SIDEKIQ_PID_FILE_RELATIVE
 EOTT
 end script
 
@@ -52,7 +52,7 @@ exec /bin/bash <<EOTT
   source \$HOME/.rvm/scripts/rvm
   logger -t sidekiq "Stopping worker: \$app"
   cd \$app
-  exec bundle exec sidekiqctl stop $SIDEKIQ_PID_FILE_RELATIVE
+  exec bundle exec sidekiqctl stop $APP_SIDEKIQ_PID_FILE_RELATIVE
 EOTT
 end script
 EOT

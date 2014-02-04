@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 export REDIS_VERSION="2.8.4"
 export REDIS_USER="redis"

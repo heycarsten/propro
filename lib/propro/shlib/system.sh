@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 export SYSTEM_HOSTNAME="" # required
 export SYSTEM_FQDN="" # required
@@ -36,7 +36,7 @@ EOT
 function system-configure-admin-user {
   announce "Adding admin user: $SYSTEM_ADMIN_USER"
   add-user $SYSTEM_ADMIN_USER sudo $SYSTEM_ADMIN_SUDO_PASSWORD
-  add-pubkeys-from-github $SYSTEM_ADMIN_USER $SYSTEM_ADMIN_AUTHORIZED_GITHUB_USERS
+  add-pubkeys-from-github $SYSTEM_ADMIN_USER "$SYSTEM_ADMIN_AUTHORIZED_GITHUB_USERS"
 }
 
 function system-configure-interfaces {
@@ -186,4 +186,5 @@ function provision-system {
   system-configure-interfaces
   system-configure-sshd
   system-configure-firewall
+  system-sources-install
 }

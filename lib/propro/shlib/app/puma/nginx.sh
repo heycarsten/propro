@@ -1,9 +1,14 @@
-#!/bin/bash
-# requires app.sh
-# requires app-puma.sh
+#!/usr/bin/env bash
 # requires nginx.sh
+# requires app.sh
+# requires app/puma.sh
 
-function provision-nginx-site {
+export APP_PUMA_NGINX_ACCESS_LOG_FILE_NAME="access.log"
+export APP_PUMA_NGINX_ERROR_LOG_FILE_NAME="error.log"
+APP_PUMA_NGINX_ACCESS_LOG_FILE="$NGINX_LOG_DIR/$APP_PUMA_NGINX_ACCESS_LOG_FILE_NAME"
+APP_PUMA_NGINX_ERROR_LOG_FILE="$NGINX_LOG_DIR/$APP_PUMA_NGINX_ERROR_LOG_FILE_NAME"
+
+function provision-app-puma-nginx {
   tee "$NGINX_SITES_DIR/$APP_DOMAIN.conf" <<EOT
 upstream $(get-app-id) {
   server unix:$(get-app-puma-socket-file) fail_timeout=0;
@@ -21,8 +26,8 @@ server {
   server_name $APP_DOMAIN;
   root $(get-app-current-public-dir);
 
-  access_log $NGINX_ACCESS_LOG_FILE main;
-  error_log  $NGINX_ERROR_LOG_FILE notice;
+  access_log $APP_PUMA_NGINX_ACCESS_LOG_FILE main;
+  error_log  $APP_PUMA_NGINX_ERROR_LOG_FILE notice;
 
   location ~* \.(eot|ttf|woff)\$ {
     add_header Access-Control-Allow-Origin *;

@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 export APP_PUMA_CONFIG_DIR_RELATIVE="config/puma"
 export APP_PUMA_CONFIG_FILE_NAME="puma.rb"
@@ -6,7 +6,7 @@ export APP_PUMA_CONF_FILE="/etc/puma.conf"
 
 APP_PUMA_CONFIG_FILE_RELATIVE="$APP_PUMA_CONFIG_DIR_RELATIVE/$APP_PUMA_CONFIG_FILE_NAME"
 
-function provision-puma-service {
+function provision-app-puma {
   section "Puma"
   announce "Create upstart for Puma"
   tee /etc/init/puma.conf <<EOT
@@ -36,9 +36,9 @@ stop on runlevel [06]
 # /etc/puma.conf format:
 # /path/to/app1
 # /path/to/app2
-env PUMA_CONF="$APP_PUMA_CONF_FILE"
+env APP_PUMA_CONF="$APP_PUMA_CONF_FILE"
 pre-start script
-  for i in `cat \$PUMA_CONF`; do
+  for i in `cat \$APP_PUMA_CONF`; do
     app=`echo \$i | cut -d , -f 1`
     logger -t "puma-manager" "Starting \$app"
     start puma app=\$app

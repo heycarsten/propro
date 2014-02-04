@@ -1,0 +1,32 @@
+source 'core/propro'
+source 'core/ubuntu'
+source 'system'
+source 'system/sources'
+source 'nginx'
+source 'redis'
+source 'extras'
+source 'app'
+source 'app/rvm'
+source 'app/pg'
+source 'app/sidekiq'
+source 'app/puma'
+source 'app/puma/nginx'
+source 'db'
+source 'db/pg'
+
+<%= @available_options %>
+
+provision [
+  'system',
+  'nginx',
+  'redis',
+  'app',
+  'app/rvm',
+  'app/sidekiq',
+  'app/puma',
+  'app/puma/nginx',
+  'app/pg',
+  'db',
+  'db/pg',
+  'extras'
+]

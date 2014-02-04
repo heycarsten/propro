@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 export NGINX_VERSION="1.4.4"
 export NGINX_USER="nginx"
@@ -16,8 +16,6 @@ export NGINX_WORKER_CONNECTIONS="2000"
 
 NGINX_SITES_DIR="$NGINX_ETC_DIR/sites"
 NGINX_CONF_DIR="$NGINX_ETC_DIR/conf"
-NGINX_ACCESS_LOG_FILE="$NGINX_LOG_DIR/$NGINX_ACCESS_LOG_FILE_NAME"
-NGINX_ERROR_LOG_FILE="$NGINX_LOG_DIR/$NGINX_ERROR_LOG_FILE_NAME"
 
 function nginx-install {
   local tmpdir=$(cd-tmp)
@@ -234,7 +232,7 @@ gzip_types
 EOT
 }
 
-function install-nginx {
+function provision-nginx {
   section "Nginx"
   nginx-install
   nginx-configure
