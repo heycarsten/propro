@@ -3,6 +3,15 @@ require 'thor'
 class Propro::CLI < Thor
   include Thor::Actions
 
+  BANNER = <<'DOC'
+    ____
+   / __ \_________  ____  _________
+  / /_/ / ___/ __ \/ __ \/ ___/ __ \
+ / ____/ /  / /_/ / /_/ / /  / /_/ /
+/_/   /_/   \____/ .___/_/   \____/
+                /_/
+DOC
+
   def self.source_root
     File.join(File.dirname(__FILE__), 'cli/templates')
   end
@@ -39,6 +48,8 @@ class Propro::CLI < Thor
     require 'net/ssh'
     require 'net/scp'
     require 'io/console'
+
+    puts "\e[2m#{BANNER}\e[0m"
 
     script   = Propro::Provisioner::Script.load(script_path)
     address  = (options[:server] || script.get_server)

@@ -83,10 +83,6 @@ function get-kernel-shmmax {
   echo "($(get-ram-bytes) * $1) / 1" | bc
 }
 
-function get-default-gateway {
-  ip route | awk '/default/ { print $3 }'
-}
-
 # $1 unix user
 # $2 path
 function as-user-mkdir {

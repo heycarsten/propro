@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 export VPS_SYSTEM_HOSTNAME="" # @require
-export VSP_SYSTEM_FQDN="" # @require
+export VPS_SYSTEM_FQDN="" # @require
 export VPS_SYSTEM_ADMIN_AUTHORIZED_GITHUB_USERS="" # @require
 export VPS_SYSTEM_ADMIN_SUDO_PASSWORD="" # @require
 export VPS_SYSTEM_PRIVATE_IP="" # @specify
@@ -14,6 +14,10 @@ export VPS_SYSTEM_GET_PUBLIC_IP_SERVICE_URL="http://ipecho.net/plain"
 
 function get-vps-system-public-ip {
   wget -qO- $VPS_SYSTEM_GET_PUBLIC_IP_SERVICE_URL
+}
+
+function get-vps-system-default-gateway {
+  ip route | awk '/default/ { print $3 }'
 }
 
 function vps-system-configure-hostname {
@@ -61,7 +65,7 @@ EOT
   service ssh restart
 }
 
-function system-configure-firewall {
+function vps-system-configure-firewall {
   section "Firewall"
   install-packages ufw
 
@@ -99,7 +103,7 @@ function vps-system-configure-interfaces {
   announce "Resolving extenal IP address"
 
   local ip_addr=$(get-vps-system-public-ip)
-  local gateway=$(get-vps-default-gateway)
+  local gateway=$(get-vps-system-default-gateway)
   local fqdn="$ip_addr $VPS_SYSTEM_HOSTNAME $VPS_SYSTEM_FQDN"
 
   announce "Setting FQDN: $fqdn"
