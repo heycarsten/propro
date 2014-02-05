@@ -35,53 +35,55 @@ class Propro::CLI < Thor
   option :password, aliases: :p, banner: '<server password>'
   option :user,     aliases: :u, banner: '<server user>', default: 'root'
   def deploy(script_path)
-    require 'sshkit/dsl'
+    require 'net/ssh'
+    require 'net/scp'
     require 'io/console'
 
     script   = Propro::Provisioner::Script.load(script_path)
     address  = (options[:server] || script.get_server)
-    password = (options[:password] || script.get_password || STDIN.noecho { ret = ask 'password:'; puts; ret })
+    password = (options[:password] || script.get_password || ask_password)
     user     = (options[:user] || script.get_user)
+    home     = user == 'root' ? '/root' : "/home/#{user}"
 
     say "Compiling Propro script: #{script_path}", :cyan
-    script_data = script.to_bash
+    script_data = StringIO.new(script.to_bash)
 
     raise ArgumentError, 'no server address has been provided'  if !address
     raise ArgumentError, 'no server password has been provided' if !password
 
     say "Connecting to #{user}@#{address}", :cyan
     Net::SSH.start(address, user, password: password) do |session|
-      tail = session.open_channel do |ch|
-        ch.exec('tail -f ~/provision.log') do |ch|
-          ch.on_data do |ch, data|
-            STDOUT.write(data)
-            STDOUT.flush
-          end
+
+      say "Uploading Propro script", :cyan
+      session.scp.upload!(script_data, "#{home}/provision.sh")
+      session.exec!("chmod +x #{home}/provision.sh")
+      session.exec!("touch #{home}/provision.log")
+      tail = session.exec("tail -f #{home}/provision.log") do |ch|
+        ch.on_data do |ch, data|
+          STDOUT.write(data)
+          STDOUT.flush
         end
       end
-      # provisioner = session.open_channel do |ch|
-      #   say "Connected to #{user}@#{address}", :green
-      #   ch.exec 'bash -s' do |ch|
-      #     ch.on_close do
-      #       say 'DONE', :green, :bold
-      #     end
 
-      #     ch.on_data do |ch, data|
-      #       STDOUT.write(data)
-      #       STDOUT.flush
-      #     end
-
-      #     #ch.send_data(script_data)
-      #     ch.send_data('echo "hello"')
-      #   end
-      # end
-
-      session.loop
+      say 'Starting Propro', :cyan
+      session.exec("#{home}/provision.sh") do |ch|
+        ch.on_close do |ch|
+          tail.close
+          session.close
+        end
+      end
     end
+
     say "Disconnected from #{user}@#{address}", :cyan
   end
 
   private
+
+  def ask_password
+    STDIN.noecho do
+      ask 'password:'
+    end
+  end
 
   def absolute_path(path)
     if path[0] == '/'
