@@ -17,7 +17,6 @@ function install-packages {
 }
 
 function update-sources {
-  announce "Updating package sources"
   apt-get -qq -y update
 }
 
@@ -150,12 +149,7 @@ function add-pubkeys-from-github {
   local keys_file="$ssh_dir/authorized_keys"
 
   mkdir -p $ssh_dir
-  chmod 700 $ssh_dir
-
   touch $keys_file
-  chmod 600 $keys_file
-
-  chown -R $1 $ssh_dir
 
   for user in $2; do
     announce-item "$user"
@@ -166,4 +160,8 @@ $(wget -qO- $url)
 
 EOT
   done
+
+  chmod 700 $ssh_dir
+  chmod 600 $keys_file
+  chown -R $1 $ssh_dir
 }

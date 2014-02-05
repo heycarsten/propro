@@ -37,7 +37,7 @@ function redis-install {
   as-user-mkdir $REDIS_USER $REDIS_DATA_DIR
 
   announce "Copy Redis config to $REDIS_CONF_FILE"
-  cp ./redis-$REDIS_VERSION/redis.conf $REDIS_CONF_FILE
+  cp ./redis.conf $REDIS_CONF_FILE
 
   cd ~/
   rm -rf $tmpdir

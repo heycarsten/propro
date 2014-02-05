@@ -8,39 +8,39 @@ export APP_USER="deploy" # @specify
 export APPS_DIR="/sites" # @specify
 
 function get-app-dir {
-  "$APPS_DIR/$APP_DOMAIN"
+  echo "$APPS_DIR/$APP_DOMAIN"
 }
 
 function get-app-shared-dir {
-  "$(get-app-dir)/shared"
+  echo "$(get-app-dir)/shared"
 }
 
 function get-app-shared-tmp-dir {
-  "$(get-app-shared-dir)/tmp"
+  echo "$(get-app-shared-dir)/tmp"
 }
 
 function get-app-shared-log-dir {
-  "$(get-app-shared-dir)/log"
+  echo "$(get-app-shared-dir)/log"
 }
 
 function get-app-shared-sockets-dir {
-  "$(get-app-shared-dir)/sockets"
+  echo "$(get-app-shared-dir)/sockets"
 }
 
 function get-app-config-dir {
-  "$(get-app-dir)/config"
+  echo "$(get-app-dir)/config"
 }
 
 function get-app-current-dir {
-  "$(get-app-deploy-dir)/current"
+  echo "$(get-app-dir)/current"
 }
 
 function get-app-releases-dir {
-  "$(get-app-dir)/releases"
+  echo "$(get-app-dir)/releases"
 }
 
 function get-app-current-public-dir {
-  "$(get-app-current-dir)/public"
+  echo "$(get-app-current-dir)/public"
 }
 
 function get-app-id {
@@ -49,19 +49,18 @@ function get-app-id {
 
 # $1 path
 function app-mkdir {
-  local path="$(get-app-dir)/$1"
-  announce-item "$path"
-  as-user-mkdir $APP_USER "$path"
+  announce-item "$1"
+  as-user-mkdir $APP_USER "$1"
 }
 
 function app-create-user {
-  add-user $APP_USER
-  add-pubkeys-from-github $APP_USER "$APP_AUTHORIZED_KEYS_GITHUB_USERS"
+  add-user $APP_USER "" ""
+  add-pubkeys-from-github $APP_USER "$APP_AUTHORIZED_GITHUB_USERS"
 }
 
 function app-create-dirs {
   announce "Building app directory tree"
-  app-mkdir $APPS_DIR
+  app-mkdir "$APPS_DIR"
   app-mkdir "$(get-app-dir)"
   app-mkdir "$(get-app-releases-dir)"
   app-mkdir "$(get-app-config-dir)"

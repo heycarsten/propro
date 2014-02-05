@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 export PROPRO_LOG_FILE="/root/provision.log"
+export PROPRO_LOG_USE_COLOR="yes"
 export PROPRO_DISABLE_LOG="no"
 
 function log {
@@ -11,24 +12,37 @@ function log {
 
   if [ $PROPRO_LOG_FILE ]; then
     touch $PROPRO_LOG_FILE
-    echo "$1" >> $PROPRO_LOG_FILE
+    echo -e "$1" >> $PROPRO_LOG_FILE
   fi
 }
 
 # $1 text
 function section {
+  local msg="==== $1 ===="
   log ""
-  log "==== $1 ===="
+  if is-yes $PROPRO_LOG_USE_COLOR; then
+    log "\e[1m\e[35m$msg\e[0m"
+  else
+    log "$msg"
+  fi
 }
 
 # $1 text
 function announce {
-  log "---> $1"
+  if is-yes $PROPRO_LOG_USE_COLOR; then
+    log "\e[34m\e[1m--->\e[0m $1"
+  else
+    log "---> $1"
+  fi
 }
 
 # $1 text
 function announce-item {
-  log "     - $1"
+  if is-yes $PROPRO_LOG_USE_COLOR; then
+    log "     \e[33m-\e[0m \e[2m\e[1m$1\e[0m"
+  else
+    log "     - $1"
+  fi
 }
 
 function finished {

@@ -7,13 +7,12 @@ function system-source-add-pg {
 deb http://apt.postgresql.org/pub/repos/apt/ $(release-codename)-pgdg main
 EOT
 
-  announce "Add apt.postgresql.org key"
+  announce-item "apt.postgresql.org"
   add-source-key $SYSTEM_SOURCES_PG_KEY_URL
-
-  announce "Update sources"
   update-sources
 }
 
 function system-sources-install {
+  section "Package Sources"
   system-source-add-pg
 }

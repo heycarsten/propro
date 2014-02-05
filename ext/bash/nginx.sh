@@ -31,7 +31,7 @@ function nginx-install {
 
   announce "Configure"
   cd nginx-$NGINX_VERSION
-  ./configure $NGINX_CONFIGURE
+  ./configure $NGINX_CONFIGURE_OPTS
 
   announce "Compile"
   make

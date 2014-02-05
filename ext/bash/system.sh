@@ -106,7 +106,7 @@ function system-configure-hostname {
 }
 
 function system-upgrade {
-  announce "Update and upgrade packages"
+  announce "Update and upgrade system packages"
   upgrade-system
 }
 
@@ -146,7 +146,7 @@ Subsystem sftp /usr/lib/openssh/sftp-server
 UsePAM yes
 EOT
 
-  announce "restart sshd"
+  announce "Restart sshd"
   service ssh restart
 }
 
@@ -175,7 +175,7 @@ function system-configure-firewall {
     done
   done
 
-  ufw enable
+  echo 'y' | ufw enable
 }
 
 function provision-system {
