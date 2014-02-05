@@ -88,10 +88,6 @@ function get-default-gateway {
   ip route | awk '/default/ { print $3 }'
 }
 
-function get-public-ip {
-  wget -qO- http://ifconfig.me/ip
-}
-
 # $1 unix user
 # $2 path
 function as-user-mkdir {

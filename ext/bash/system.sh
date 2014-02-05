@@ -16,6 +16,11 @@ export SYSTEM_ALLOW_PORTS="www 443 ssh"
 export SYSTEM_LIMIT_PORTS="ssh"
 export SYSTEM_ALLOW_PRIVATE_IPS="" # @specify
 export SYSTEM_ALLOW_PRIVATE_PORTS="5432 6379" # Postgres & Redis
+export SYSTEM_GET_PUBLIC_IP_SERVICE_URL="http://ipecho.net/plain"
+
+function get-system-public-ip {
+  wget -qO- $SYSTEM_GET_PUBLIC_IP_SERVICE_URL
+}
 
 function system-configure-shared-memory {
   announce "Configuring shared memory"
@@ -42,7 +47,7 @@ function system-configure-admin-user {
 function system-configure-interfaces {
   announce "Resolving extenal IP address"
 
-  local ip_addr=$(get-public-ip)
+  local ip_addr=$(get-system-public-ip)
   local gateway=$(get-default-gateway)
   local fqdn="$ip_addr $SYSTEM_HOSTNAME $SYSTEM_FQDN"
 
