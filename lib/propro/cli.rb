@@ -8,6 +8,7 @@ class Propro::CLI < Thor
   end
 
   desc 'init NAME', 'Creates a Propro script with the file name NAME'
+  option :template, aliases: '-t', enum: %w[ db app web vagrant ], default: 'web'
   def init(name = nil)
     @packages = Propro.packages
     file = if name
@@ -15,7 +16,7 @@ class Propro::CLI < Thor
     else
       File.join(Dir.pwd, 'provision.propro')
     end
-    template 'propro.tt', file
+    template "#{options[:template]}.tt", file
   end
 
   desc 'build INPUT', 'Takes a Propro script INPUT and generates a Bash provisioner OUTPUT'
@@ -43,7 +44,7 @@ class Propro::CLI < Thor
     address  = (options[:server] || script.get_server)
     password = (options[:password] || script.get_password || ask_password)
     user     = (options[:user] || script.get_user)
-    remote_home = user == 'root' ? '/root' : "/home/#{user}"
+    remote_home = (user == 'root' ? '/root' : "/home/#{user}")
     remote_log_path    = "#{remote_home}/provision.log"
     remote_script_path = "#{remote_home}/provision.sh"
     remote_script_url  = address + remote_script_path
@@ -67,15 +68,10 @@ class Propro::CLI < Thor
         end
       end
 
+      sleep 1 # ughhhhhh
       say_event 'run', remote_script_url
       puts
-      session.exec(remote_script_path) do |ch|
-        ch.on_eof do |ch|
-          tail.close
-          ch.close
-          session.close
-        end
-      end
+      session.exec(remote_script_path)
     end
 
     say_event 'done', "Disconnected from #{user}@#{address}"

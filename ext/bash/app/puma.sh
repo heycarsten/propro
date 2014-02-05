@@ -5,6 +5,10 @@ export APP_PUMA_CONF_FILE="/etc/puma.conf"
 
 APP_PUMA_CONFIG_FILE_RELATIVE="$APP_PUMA_CONFIG_DIR_RELATIVE/$APP_PUMA_CONFIG_FILE_NAME"
 
+function get-app-puma-socket-file {
+  echo "$(get-app-shared-sockets-dir)/puma.sock"
+}
+
 function provision-app-puma {
   section "Puma"
   announce "Create upstart for Puma"
@@ -55,8 +59,6 @@ EOT
   announce "Adding sudoers entries"
   add-sudoers-entries $APP_USER "puma-manager" ""
   add-sudoers-entries $APP_USER "puma" "app=$(get-app-current-dir)"
-}
 
-function get-app-puma-socket-file {
-  echo "$(get-app-shared-sockets-dir)/puma.sock"
+  provision-app-puma-nginx
 }

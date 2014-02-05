@@ -1,24 +1,32 @@
 class Propro::Provisioner::Script
   EXPAND_SOURCES = {
-    core: [
-      'core/propro',
-      'core/ubuntu'
+    lib: %w[
+      lib/propro
+      lib/ubuntu
+      lib/system
+      lib/rvm
+      lib/nginx
+      lib/redis
+      lib/pg
     ],
-    system: [
-      'system',
-      'system/sources'
+    app: %w[
+      app
+      app/rvm
+      app/pg
+      app/nginx
+      app/sidekiq
+      app/puma
+      app/puma/nginx
     ],
-    app: [
-      'app',
-      'app/rvm',
-      'app/pg',
-      'app/sidekiq',
-      'app/puma',
-      'app/puma/nginx'
+    vps: %w[
+      vps/system
     ],
-    db: [
-      'db',
-      'db/pg'
+    vagrant: %w[
+      vagrant
+      vagrant/rvm
+      vagrant/system
+      vagrant/nginx
+      vagrant/db
     ]
   }
 

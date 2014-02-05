@@ -1,19 +1,26 @@
 module Propro::Package
   SORT_PACKAGES = %w[
-    core/propro
-    core/ubuntu
-    system
-    system/sources
-    nginx
-    redis
+    lib/propro
+    lib/ubuntu
+    lib/system
+    lib/pg
+    lib/rvm
+    lib/nginx
+    lib/redis
     extras
     app
     app/rvm
     app/pg
+    app/nginx
     app/sidekiq
     app/puma
     app/puma/nginx
     db
-    db/pg
+    vps/system
+    vagrant
+    vagrant/system
+    vagrant/pg
+    vagrant/rvm
+    vagrant/nginx
   ]
 end

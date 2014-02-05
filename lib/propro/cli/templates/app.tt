@@ -1,0 +1,31 @@
+#      ____
+#     / __ \_________  ____  _________
+#    / /_/ / ___/ __ \/ __ \/ ___/ __ \
+#   / ____/ /  / /_/ / /_/ / /  / /_/ /
+#  /_/   /_/   \____/ .___/_/   \____/
+#                  /_/
+#
+# Example provisioner for front-end app server
+
+source :lib
+source :vps
+source :extras
+source :app
+<%- @packages.each do |package| -%>
+<%- if package.specified_exports.any? -%>
+
+# <%= package.name %>
+<%- package.specified_exports.each do |export| -%>
+<%= export.to_ruby %>
+<%- end -%>
+<%- end -%>
+<%- end -%>
+
+provision 'vps/system'
+provision 'app'
+provision 'app/pg'
+provision 'app/rvm'
+provision 'app/nginx'
+provision 'app/sidekiq'
+provision 'app/puma'
+provision 'app/puma/nginx'

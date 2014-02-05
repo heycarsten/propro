@@ -1,7 +1,6 @@
 #!/usr/bin/env bash
 #
 # Provides tools and commands for deploying a Rack application with Capistrano
-#
 export APP_DOMAIN="" # @require
 export APP_AUTHORIZED_GITHUB_USERS="" # @require
 export APP_USER="deploy" # @specify

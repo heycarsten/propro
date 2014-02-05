@@ -49,10 +49,8 @@ function finished {
   section "Fin."
 }
 
-function cd-tmp {
-  local dirname=$(mktemp -d)
-  cd $dirname
-  return $dirname
+function get-tmp-dir {
+  mktemp -d
 }
 
 # $1 "yes" or "no"

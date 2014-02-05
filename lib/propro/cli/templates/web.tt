@@ -1,0 +1,32 @@
+#      ____
+#     / __ \_________  ____  _________
+#    / /_/ / ___/ __ \/ __ \/ ___/ __ \
+#   / ____/ /  / /_/ / /_/ / /  / /_/ /
+#  /_/   /_/   \____/ .___/_/   \____/
+#                  /_/
+#
+# Example provisioner for a standalone web server
+
+source :lib
+source :vps
+source :extras
+source :db
+<%- @packages.each do |package| -%>
+<%- if package.specified_exports.any? -%>
+
+# <%= package.name %>
+<%- package.specified_exports.each do |export| -%>
+<%= export.to_ruby %>
+<%- end -%>
+<%- end -%>
+<%- end -%>
+
+provision 'vps/system'
+provision 'db'
+provision 'redis'
+provision 'app'
+provision 'app/rvm'
+provision 'app/nginx'
+provision 'app/puma'
+provision 'app/sidekiq'
+provision 'extras'

@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
 function provision-app-pg {
-  announce "Install PostgreSQL Client"
+  section "PostgreSQL Client"
   install-packages libpq-dev
 }

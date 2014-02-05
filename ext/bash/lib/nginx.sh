@@ -18,7 +18,8 @@ NGINX_SITES_DIR="$NGINX_ETC_DIR/sites"
 NGINX_CONF_DIR="$NGINX_ETC_DIR/conf"
 
 function nginx-install {
-  local tmpdir=$(cd-tmp)
+  local tmpdir=$(get-tmp-dir)
+  cd "$tmpdir"
 
   announce "Install dependencies"
   install-packages $NGINX_DEPENDENCIES
@@ -40,7 +41,7 @@ function nginx-install {
   make install
 
   cd ~/
-  rm -rf $tmpdir
+  rm -rf "$tmpdir"
 }
 
 function nginx-configure {
@@ -80,24 +81,6 @@ http {
 
   include /etc/nginx/conf/*.conf
   include /etc/nginx/sites/*.conf
-}
-EOT
-
-  announce "Create logrotate for Nginx"
-  tee /etc/logrotate.d/nginx <<EOT
-$NGINX_LOG_DIR/*.log {
-  daily
-  missingok
-  rotate 90
-  compress
-  delaycompress
-  notifempty
-  dateext
-  create 640 nginx adm
-  sharedscripts
-  postrotate
-    [ -f $NGINX_PID_FILE ] && kill -USR1 `cat $NGINX_PID_FILE`
-  endscript
 }
 EOT
 
@@ -232,10 +215,22 @@ gzip_types
 EOT
 }
 
-function provision-nginx {
-  section "Nginx"
-  nginx-install
-  nginx-configure
-  nginx-conf-add-gzip
-  nginx-conf-add-mimetypes
+function nginx-create-logrotate {
+  announce "Create logrotate for Nginx"
+  tee /etc/logrotate.d/nginx <<EOT
+$NGINX_LOG_DIR/*.log {
+  daily
+  missingok
+  rotate 90
+  compress
+  delaycompress
+  notifempty
+  dateext
+  create 640 nginx adm
+  sharedscripts
+  postrotate
+    [ -f $NGINX_PID_FILE ] && kill -USR1 `cat $NGINX_PID_FILE`
+  endscript
+}
+EOT
 }

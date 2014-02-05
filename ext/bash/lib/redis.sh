@@ -9,7 +9,8 @@ export REDIS_BIND_IP="" # @specify
 REDIS_URL="http://download.redis.io/releases/redis-$REDIS_VERSION.tar.gz"
 
 function redis-install {
-  local tmpdir=$(cd-tmp)
+  local tmpdir=$(get-tmp-dir)
+  cd "$tmpdir"
 
   announce "Download $REDIS_VERSION"
   download $REDIS_URL
@@ -40,7 +41,7 @@ function redis-install {
   cp ./redis.conf $REDIS_CONF_FILE
 
   cd ~/
-  rm -rf $tmpdir
+  rm -rf "$tmpdir"
 
   announce "Update Redis config"
   tee -a $REDIS_CONF_FILE <<EOT
