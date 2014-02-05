@@ -64,7 +64,8 @@ class Propro::CLI < Thor
         end
       end
 
-      say_event 'exec', "#{address}/#{home}/provision.sh"
+      say_event 'run', "#{address}#{home}/provision.sh"
+      puts
       session.exec("#{home}/provision.sh") do |ch|
         ch.on_eof do |ch|
           tail.close
