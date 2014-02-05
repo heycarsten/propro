@@ -111,7 +111,7 @@ function system-upgrade {
 }
 
 function system-configure-sshd {
-  announce "Configure sshd"
+  announce "Configure sshd:"
   announce-item "disable root login"
   announce-item "disable password auth"
   tee /etc/ssh/sshd_config <<EOT
@@ -154,7 +154,7 @@ function system-configure-firewall {
   section "Firewall"
   install-packages ufw
 
-  announce "Configuring firewall"
+  announce "Configuring firewall:"
   ufw default deny
   ufw logging on
 

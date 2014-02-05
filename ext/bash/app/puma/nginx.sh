@@ -18,7 +18,7 @@ server {
   listen 80;
   listen 443 ssl;
   server_name www.$APP_DOMAIN;
-  return 301 \$scheme://$1\$request_uri;
+  return 301 \$scheme://$APP_DOMAIN\$request_uri;
 }
 
 server {

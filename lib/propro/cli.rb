@@ -43,7 +43,10 @@ class Propro::CLI < Thor
     address  = (options[:server] || script.get_server)
     password = (options[:password] || script.get_password || ask_password)
     user     = (options[:user] || script.get_user)
-    home     = user == 'root' ? '/root' : "/home/#{user}"
+    remote_home = user == 'root' ? '/root' : "/home/#{user}"
+    remote_log_path    = "#{remote_home}/provision.log"
+    remote_script_path = "#{remote_home}/provision.sh"
+    remote_script_url  = address + remote_script_path
 
     say_event 'build', script_path
     script_data = StringIO.new(script.to_bash)
@@ -53,20 +56,20 @@ class Propro::CLI < Thor
 
     say_event 'connect', "#{user}@#{address}"
     Net::SSH.start(address, user, password: password) do |session|
-      say_event 'upload', script_path
-      session.scp.upload!(script_data, "#{home}/provision.sh")
-      session.exec!("chmod +x #{home}/provision.sh")
-      session.exec!("touch #{home}/provision.log")
-      tail = session.exec("tail -f #{home}/provision.log") do |ch|
+      say_event 'upload', "#{script_path} -> #{remote_script_url}"
+      session.scp.upload!(script_data, remote_script_path)
+      session.exec!("chmod +x #{remote_script_path}")
+      session.exec!("touch #{remote_log_path}")
+      tail = session.exec("tail -f #{remote_log_path}") do |ch|
         ch.on_data do |ch, data|
           STDOUT.write(data)
           STDOUT.flush
         end
       end
 
-      say_event 'run', "#{address}#{home}/provision.sh"
+      say_event 'run', remote_script_url
       puts
-      session.exec("#{home}/provision.sh") do |ch|
+      session.exec(remote_script_path) do |ch|
         ch.on_eof do |ch|
           tail.close
           ch.close

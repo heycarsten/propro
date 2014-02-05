@@ -60,7 +60,7 @@ EOT
 $(get-app-current-dir)
 EOT
 
-  announce "Adding temp dir"
+  announce "Adding temp dir:"
   app-mkdir "$(get-app-shared-tmp-dir)/sidekiq"
 
   announce "Adding sudoers entries"

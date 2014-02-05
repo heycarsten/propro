@@ -59,7 +59,7 @@ function app-create-user {
 }
 
 function app-create-dirs {
-  announce "Building app directory tree"
+  announce "Building app directory tree:"
   app-mkdir "$APPS_DIR"
   app-mkdir "$(get-app-dir)"
   app-mkdir "$(get-app-releases-dir)"

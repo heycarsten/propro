@@ -58,5 +58,5 @@ EOT
 }
 
 function get-app-puma-socket-file {
-  "$(get-app-shared-sockets-dir)/puma.sock"
+  echo "$(get-app-shared-sockets-dir)/puma.sock"
 }

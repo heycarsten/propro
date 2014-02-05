@@ -6,7 +6,7 @@ class Propro::Provisioner::Command
   end
 
   def function_name
-    @function_name ||= "provision-#{name.gsub(/\/\_/, '-')}"
+    @function_name ||= "provision-#{name.gsub(/\/|\_/, '-')}"
   end
 
   def to_bash

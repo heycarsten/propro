@@ -18,10 +18,10 @@ function log {
 
 # $1 text
 function section {
-  local msg="==== $1 ===="
+  local msg="#### $1"
   log ""
   if is-yes $PROPRO_LOG_USE_COLOR; then
-    log "\e[1m\e[35m$msg\e[0m"
+    log "\e[32m\e[1m$msg\e[0m"
   else
     log "$msg"
   fi
@@ -39,18 +39,14 @@ function announce {
 # $1 text
 function announce-item {
   if is-yes $PROPRO_LOG_USE_COLOR; then
-    log "     \e[33m-\e[0m \e[2m\e[1m$1\e[0m"
+    log "     - \e[36m$1\e[0m"
   else
     log "     - $1"
   fi
 }
 
 function finished {
-  log ""
-  log '!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!'
-  log '!!        \o/  FINSIHED  \o/        !!'
-  log '!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!'
-  log ""
+  section "Fin."
 }
 
 function cd-tmp {
