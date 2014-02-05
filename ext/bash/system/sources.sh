@@ -1,5 +1,4 @@
 #!/usr/bin/env bash
-
 export SYSTEM_SOURCES_PG_KEY_URL="http://apt.postgresql.org/pub/repos/apt/ACCC4CF8.asc"
 
 function system-source-add-pg {
@@ -15,6 +14,6 @@ EOT
   update-sources
 }
 
-function provision-system-sources {
+function system-sources-install {
   system-source-add-pg
 }

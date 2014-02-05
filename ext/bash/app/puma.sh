@@ -1,7 +1,6 @@
 #!/usr/bin/env bash
-
 export APP_PUMA_CONFIG_DIR_RELATIVE="config/puma"
-export APP_PUMA_CONFIG_FILE_NAME="puma.rb"
+export APP_PUMA_CONFIG_FILE_NAME="puma.rb" # @specify
 export APP_PUMA_CONF_FILE="/etc/puma.conf"
 
 APP_PUMA_CONFIG_FILE_RELATIVE="$APP_PUMA_CONFIG_DIR_RELATIVE/$APP_PUMA_CONFIG_FILE_NAME"

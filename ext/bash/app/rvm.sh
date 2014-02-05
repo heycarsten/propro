@@ -1,8 +1,7 @@
 #!/usr/bin/env bash
 # requires app.sh
-
 export APP_RVM_CHANNEL="stable"
-export APP_RVM_RUBY_VERSION="2.0.0"
+export APP_RVM_RUBY_VERSION="2.0.0" # @specify
 APP_RVM_REQUIRED_PACKAGES="curl gawk g++ gcc make libc6-dev libreadline6-dev zlib1g-dev libssl-dev libyaml-dev libsqlite3-dev sqlite3 autoconf libgdbm-dev libncurses5-dev automake libtool bison pkg-config libffi-dev"
 
 function app-rvm-init {

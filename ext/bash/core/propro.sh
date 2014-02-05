@@ -1,5 +1,4 @@
 #!/usr/bin/env bash
-
 export PROPRO_LOG_FILE="/root/provision.log"
 export PROPRO_DISABLE_LOG="no"
 

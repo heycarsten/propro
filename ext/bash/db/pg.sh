@@ -1,14 +1,13 @@
 #!/usr/bin/env bash
-
-export DB_PG_VERSION="9.3" # 8.4, 9.0, 9.1, 9.2, 9.3
-export DB_PG_EXTENSIONS="btree_gin btree_gist fuzzystrmatch hstore intarray ltree pg_trgm tsearch2 unaccent" # see: http://www.postgresql.org/docs/9.3/static/contrib.html
+export DB_PG_VERSION="9.3" # @specify
+export DB_PG_EXTENSIONS="btree_gin btree_gist fuzzystrmatch hstore intarray ltree pg_trgm tsearch2 unaccent" # @specify see: http://www.postgresql.org/docs/9.3/static/contrib.html
 export DB_PG_CONFIG_FILE="/etc/postgresql/$DB_PG_VERSION/main/postgresql.conf"
 export DB_PG_HBA_FILE="/etc/postgresql/$DB_PG_VERSION/main/pg_hba.conf"
 export DB_PG_TUNE_VERSION="0.9.3"
 export DB_PG_TUNE_URL="http://pgfoundry.org/frs/download.php/2449/pgtune-$DB_PG_TUNE_VERSION.tar.gz"
 export DB_PG_USER="postgres"
-export DB_PG_BIND_IP=""
-export DB_PG_TRUST_IPS=""
+export DB_PG_BIND_IP="" # @specify
+export DB_PG_TRUST_IPS="" # @specify
 
 function db-pg-install-packages {
   announce "Install PosgreSQL Server $DB_PG_VERSION"

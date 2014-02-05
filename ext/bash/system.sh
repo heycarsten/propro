@@ -1,20 +1,20 @@
 #!/usr/bin/env bash
 
-export SYSTEM_HOSTNAME="" # required
-export SYSTEM_FQDN="" # required
-export SYSTEM_ADMIN_AUTHORIZED_GITHUB_USERS="" # required
-export SYSTEM_ADMIN_SUDO_PASSWORD="" # required
-export SYSTEM_PRIVATE_IP=""
-export SYSTEM_ADMIN_USER="admin"
-export SYSTEM_SHMALL_PERCENT="0.75"
-export SYSTEM_SHMMAX_PERCENT="0.5"
+export SYSTEM_HOSTNAME="" # @require
+export SYSTEM_FQDN="" # @require
+export SYSTEM_ADMIN_AUTHORIZED_GITHUB_USERS="" # @require
+export SYSTEM_ADMIN_SUDO_PASSWORD="" # @require
+export SYSTEM_PRIVATE_IP="" # @specify
+export SYSTEM_ADMIN_USER="admin" # @specify
+export SYSTEM_SHMALL_PERCENT="0.75" # @specify
+export SYSTEM_SHMMAX_PERCENT="0.5" # @specify
 export SYSTEM_PRIVATE_NETMASK="255.255.128.0"
 export SYSTEM_BASE_PACKAGES="curl vim-nox less htop build-essential openssl"
-export SYSTEM_TIMEZONE="Etc/UTC"
-export SYSTEM_LOCALE="en_US.UTF-8"
+export SYSTEM_TIMEZONE="Etc/UTC" # @specify
+export SYSTEM_LOCALE="en_US.UTF-8" # @specify
 export SYSTEM_ALLOW_PORTS="www 443 ssh"
 export SYSTEM_LIMIT_PORTS="ssh"
-export SYSTEM_ALLOW_PRIVATE_IPS=""
+export SYSTEM_ALLOW_PRIVATE_IPS="" # @specify
 export SYSTEM_ALLOW_PRIVATE_PORTS="5432 6379" # Postgres & Redis
 
 function system-configure-shared-memory {

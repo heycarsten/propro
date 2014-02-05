@@ -2,10 +2,10 @@
 #
 # Provides tools and commands for deploying a Rack application with Capistrano
 #
-export APP_DOMAIN="" # required
-export APP_AUTHORIZED_GITHUB_USERS="" # required "heycarsten,ghedamat"
-export APP_USER="deploy"
-export APPS_DIR="/sites"
+export APP_DOMAIN="" # @require
+export APP_AUTHORIZED_GITHUB_USERS="" # @require
+export APP_USER="deploy" # @specify
+export APPS_DIR="/sites" # @specify
 
 function get-app-dir {
   "$APPS_DIR/$APP_DOMAIN"

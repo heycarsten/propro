@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-export EXTRA_PACKAGES=""
+export EXTRA_PACKAGES="" # @specify
 
 function provision-extras {
   if [ -z "$EXTRA_PACKAGES" ]; then

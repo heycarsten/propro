@@ -1,5 +1,5 @@
-class Propro::Provisioner::Container
-  EXPAND_PACKAGES = {
+class Propro::Provisioner::Script
+  EXPAND_SOURCES = {
     core: [
       'core/propro',
       'core/ubuntu'
@@ -23,31 +23,56 @@ class Propro::Provisioner::Container
   }
 
   def self.load(file)
-    container = new
-    container.instance_exec(file)
-    container
+    script = new
+    script.load_file(file)
+    script
   end
 
   def initialize
-    @packages = []
+    @sources  = []
     @options  = []
     @commands = []
+    @server   = nil
+    @password = nil
+  end
+
+  def load_file(file)
+    @file = file
+    instance_eval(File.read(file))
+  end
+
+  def server(host, opts = {})
+    @server   = host
+    @password = opts[:password]
+    @user     = opts[:user] || 'root'
+  end
+
+  def get_server
+    @server
+  end
+
+  def get_password
+    @password
+  end
+
+  def get_user
+    @user
   end
 
   def source(src)
-    if (expands = EXPAND_PACKAGES[src])
-      @packages.concat(expands.map { |s| Package.new(s) })
+    if (expands = EXPAND_SOURCES[src])
+      @sources.concat(expands.map { |s| Propro::Package::Source.new(s) })
     else
-      @packages << Package.new(src)
+      @sources << Propro::Package::Source.new(src)
     end
   end
 
   def set(key, value)
-    @options << Option.new(key, value)
+    @options << Propro::Provisioner::Option.new(key, value)
   end
 
   def provision(*commands)
-    @commands.concat(commands.flatten.map { |c| Command.new(c) })
+    @commands.concat(commands.flatten.map { |c| Propro::Provisioner::Command.new(c) })
   end
 
   def to_bash
@@ -59,6 +84,7 @@ exec &> /root/full_provision.log
 
 #{sources_bash}
 
+# #{@file}
 #{options_bash}
 
 function main {
@@ -79,7 +105,7 @@ SH
   end
 
   def sources_bash
-    @sources.map(&:to_bash).join("\n")
+    @sources.map(&:to_bash).join
   end
 
   def commands_bash

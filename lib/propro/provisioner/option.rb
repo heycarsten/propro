@@ -1,8 +1,10 @@
 class Propro::Provisioner::Option
   attr_reader :name
 
-  def initialize(key)
-    @key = key.to_s.downcase.to_sym
+  def initialize(key, value, opts = {})
+    @key        = key.to_s.downcase.to_sym
+    @value      = value
+    @is_literal = opts[:lit] ? true : false
   end
 
   def name
@@ -23,7 +25,7 @@ class Propro::Provisioner::Option
     when false
       '"no"'
     else
-      "\"#{val}\""
+      @is_literal ? %{'#{val}'} : %{"#{val}"}
     end
   end
 

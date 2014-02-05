@@ -3,8 +3,8 @@ require 'propro/package'
 require 'propro/package/export'
 require 'propro/package/source'
 require 'propro/provisioner'
+require 'propro/provisioner/script'
 require 'propro/provisioner/command'
-require 'propro/provisioner/container'
 require 'propro/provisioner/option'
 
 module Propro

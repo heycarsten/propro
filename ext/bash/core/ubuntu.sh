@@ -1,5 +1,4 @@
 #!/usr/bin/env bash
-
 function get-processor-count {
   nproc
 }

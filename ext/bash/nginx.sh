@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 
-export NGINX_VERSION="1.4.4"
+export NGINX_VERSION="1.4.4" # @specify
 export NGINX_USER="nginx"
-export NGINX_CONFIGURE_OPTS="--with-http_ssl_module --with-http_gzip_static_module"
+export NGINX_CONFIGURE_OPTS="--with-http_ssl_module --with-http_gzip_static_module" # @specify
 export NGINX_CONF_FILE="/etc/nginx.conf"
 export NGINX_ETC_DIR="/etc/nginx"
 export NGINX_LOG_DIR="/var/log/nginx"
@@ -11,8 +11,8 @@ export NGINX_ERROR_LOG_FILE_NAME="error.log"
 export NGINX_DEPENDENCIES="libpcre3-dev libssl-dev"
 export NGINX_WORKER_COUNT=$(get-processor-count)
 export NGINX_PID_FILE="/var/run/nginx.pid"
-export NGINX_CLIENT_MAX_BODY_SIZE="5m"
-export NGINX_WORKER_CONNECTIONS="2000"
+export NGINX_CLIENT_MAX_BODY_SIZE="5m" # @specify
+export NGINX_WORKER_CONNECTIONS="2000" # @specify
 
 NGINX_SITES_DIR="$NGINX_ETC_DIR/sites"
 NGINX_CONF_DIR="$NGINX_ETC_DIR/conf"

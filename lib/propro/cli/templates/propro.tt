@@ -6,10 +6,10 @@ source :extras
 source :app
 source :db
 <%- @packages.each do |package| -%>
-<%- if package.exports.any? -%>
+<%- if package.specified_exports.any? -%>
 
 # <%= package.name %>
-<%- package.exports.each do |export| -%>
+<%- package.specified_exports.each do |export| -%>
 <%= export.to_ruby %>
 <%- end -%>
 <%- end -%>

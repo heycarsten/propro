@@ -1,12 +1,13 @@
 class Propro::Package::Source
-  attr_reader :exports, :name, :src
+  attr_reader :name
 
-  EXPORT_BEGIN = 'export '
+  EXPORT_BEGIN  = 'export '
+  COMMENT_BEGIN = '#'
 
   def initialize(name)
-    @name = name.to_s
+    @name    = name.to_s
     @exports = []
-    @src = ''
+    @src     = ''
     load
   end
 
@@ -19,23 +20,28 @@ class Propro::Package::Source
   end
 
   def load
-    @src = ''
     File.open(file_path) do |file|
-      file.each_line do |line|
-        case
-        # skip comments
-        when line.start_with?('#')
-          next
-        # collect exported variables from bash modules
-        when line.start_with?(EXPORT_BEGIN)
-          @exports << Propro::Package::Export.parse(line)
-          @src << line.sub(EXPORT_BEGIN, '')
-        else
-          @src << line
-        end
-      end
+      file.each_line { |line| load_line(line) }
     end
-    @src
+  end
+
+  def specified_exports
+    @specified_exports ||= begin
+      exports.select { |e| e.is_required? || e.is_specified? }
+    end
+  end
+
+  def exports
+    @exports.sort { |a, b|
+      case
+      when b.is_required?
+        1
+      when b.is_specified?
+        0
+      else
+        -1
+      end
+    }
   end
 
   def to_bash
@@ -44,5 +50,21 @@ class Propro::Package::Source
 #{@src}
 
 SH
+  end
+
+  protected
+
+  def load_line(line)
+    case
+    when line.start_with?(COMMENT_BEGIN)
+      # skip comments
+    when line.start_with?(EXPORT_BEGIN)
+      # collect exported variables from bash modules
+      @exports << Propro::Package::Export.parse(line)
+      @src << line.sub(EXPORT_BEGIN, '')
+    else
+      # pass-through
+      @src << line
+    end
   end
 end

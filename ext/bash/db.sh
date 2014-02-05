@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
-export DB_NAME="" # required
-export DB_USER="" # required
+export DB_NAME="" # @require
+export DB_USER="" # @require
 
 function provision-db {
   provision-db-pg

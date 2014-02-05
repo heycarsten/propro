@@ -1,8 +1,7 @@
 #!/usr/bin/env bash
 # requires app.sh
-
 export APP_SIDEKIQ_CONFIG_DIR_RELATIVE="config/sidekiq"
-export APP_SIDEKIQ_CONFIG_FILE_NAME="sidekiq.yml"
+export APP_SIDEKIQ_CONFIG_FILE_NAME="sidekiq.yml" # @specify
 export APP_SIDEKIQ_PID_FILE_RELATIVE="tmp/sidekiq/worker.pid"
 export APP_SIDEKIQ_CONF_FILE="/etc/sidekiq.conf"
 

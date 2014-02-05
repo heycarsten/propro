@@ -1,11 +1,11 @@
 #!/usr/bin/env bash
 
-export REDIS_VERSION="2.8.4"
+export REDIS_VERSION="2.8.4" # @specify
 export REDIS_USER="redis"
 export REDIS_CONF_FILE="/etc/redis.conf"
 export REDIS_DATA_DIR="/var/lib/redis"
-export REDIS_FORCE_64BIT="no" # Force 64bit build even if available memory is lte 4GiB
-export REDIS_BIND_IP=""
+export REDIS_FORCE_64BIT="no" # @specify Force 64bit build even if available memory is lte 4GiB
+export REDIS_BIND_IP="" # @specify
 REDIS_URL="http://download.redis.io/releases/redis-$REDIS_VERSION.tar.gz"
 
 function redis-install {

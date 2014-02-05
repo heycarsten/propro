@@ -1,34 +1,65 @@
 class Propro::Package::Export
+  TAG_SPECIFY   = '@specify'
+  TAG_REQUIRE   = '@require'
   EXPORT_BEGIN  = 'export '
-  COMMENT_RANGE = /#.*/
+  COMMENT_RANGE = /#(.*)\Z/
+  DQUO          = '"'
+  SQUO          = '\''
+  EQ            = '='
+  ZERO_STRING   = ''
+  INTEGER_RE    = /\A\-{0,1}[0-9]+\Z/
+  DECIMAL_RE    = /\A\-{0,1}[0-9]+\.[0-9]+\Z/
+  SPACE_RE      = / /
+  YES           = 'yes'
+  NO            = 'no'
 
   def self.parse(line)
-    line        = line.sub(EXPORT_BEGIN, '')
-    name, value = line.split('=', 2)
+    is_literal   = false
+    is_specified = false
+    is_required  = false
+    comment      = nil
+    line         = line.sub(EXPORT_BEGIN, ZERO_STRING)
+    name, value  = line.split(EQ, 2)
 
-    # Remove comments
-    value.sub!(COMMENT_RANGE, '')
+    if value =~ COMMENT_RANGE
+      metacomment = $1
+      is_specified = true if metacomment.sub!(TAG_SPECIFY, ZERO_STRING)
+      is_required  = true if metacomment.sub!(TAG_REQUIRE, ZERO_STRING)
+      metacomment.strip!
+
+      if metacomment != ZERO_STRING
+        comment = metacomment
+      end
+    end
+
+    value.sub!(COMMENT_RANGE, ZERO_STRING)
     value.strip!
 
     case value[0]
-    when '"'
-      value[0]  = ''
-      value[-1] = ''
-      is_single_quote = false
-    when "'"
-      value[0]  = ''
-      value[-1] = ''
-      is_single_quote = true
-    else
-      value
+    when DQUO
+      value[0]  = ZERO_STRING
+      value[-1] = ZERO_STRING
+    when SQUO
+      lit       = true
+      value[0]  = ZERO_STRING
+      value[-1] = ZERO_STRING
     end
 
-    new name, default: value
+    new name,
+      default:      value,
+      is_literal:   is_literal,
+      is_specified: is_specified,
+      is_required:  is_required,
+      comment:      comment
   end
 
   def initialize(name, opts = {})
-    @name    = name.to_s.upcase
-    @default = opts[:default]
+    @name         = name.to_s.upcase
+    @default      = opts[:default]
+    @is_literal   = opts[:is_literal]
+    @is_specified = opts[:is_specified]
+    @is_required  = opts[:is_required]
+    @comment      = opts[:comment]
   end
 
   def key
@@ -36,28 +67,48 @@ class Propro::Package::Export
   end
 
   def to_ruby
-    "set #{key.inspect}, #{default.inspect}"
+    args = []
+    args << key.inspect
+    args << default.inspect
+    args << "lit: true" if @is_literal
+    if @comment
+      "set #{args.join(', ')} # #{@comment}"
+    else
+      "set #{args.join(', ')}"
+    end
   end
 
   def default
     cast(@default)
   end
 
+  def is_literal?
+    @is_literal
+  end
+
+  def is_specified?
+    @is_specified
+  end
+
+  def is_required?
+    @is_required
+  end
+
   protected
 
   def cast(val)
     case val
-    when /\A\-{0,1}[0-9]+\Z/
+    when INTEGER_RE
       val.to_i
-    when /\A\-{0,1}[0-9]+\.[0-9]+\Z/
+    when DECIMAL_RE
       val.to_f
-    when ''
+    when ZERO_STRING
       nil
-    when / /
+    when SPACE_RE
       val.split(' ')
-    when 'yes'
+    when YES
       true
-    when 'no'
+    when NO
       false
     else
       val

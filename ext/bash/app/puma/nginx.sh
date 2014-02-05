@@ -2,9 +2,8 @@
 # requires nginx.sh
 # requires app.sh
 # requires app/puma.sh
-
-export APP_PUMA_NGINX_ACCESS_LOG_FILE_NAME="access.log"
-export APP_PUMA_NGINX_ERROR_LOG_FILE_NAME="error.log"
+export APP_PUMA_NGINX_ACCESS_LOG_FILE_NAME="access.log" # @specify
+export APP_PUMA_NGINX_ERROR_LOG_FILE_NAME="error.log" # @specify
 APP_PUMA_NGINX_ACCESS_LOG_FILE="$NGINX_LOG_DIR/$APP_PUMA_NGINX_ACCESS_LOG_FILE_NAME"
 APP_PUMA_NGINX_ERROR_LOG_FILE="$NGINX_LOG_DIR/$APP_PUMA_NGINX_ERROR_LOG_FILE_NAME"
 
