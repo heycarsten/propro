@@ -25,8 +25,8 @@ class Propro::Provisioner::Script
       vagrant
       vagrant/rvm
       vagrant/system
+      vagrant/pg
       vagrant/nginx
-      vagrant/db
     ]
   }
 
