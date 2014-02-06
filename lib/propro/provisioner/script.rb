@@ -57,10 +57,6 @@ class Propro::Provisioner::Script
 #
 # Built from: #{@file_name}
 
-set -e
-set -u
-exec &> /root/full_provision.log
-
 #{sources_bash}
 
 # Options from: #{@file_name}

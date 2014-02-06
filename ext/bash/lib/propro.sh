@@ -1,7 +1,15 @@
 #!/usr/bin/env bash
+set -e
+set -u
+
 export PROPRO_LOG_FILE="/root/provision.log"
+export PROPRO_FULL_LOG_FILE="/root/full_provision.log"
 export PROPRO_LOG_USE_COLOR="yes"
 export PROPRO_DISABLE_LOG="no"
+
+>$PROPRO_FULL_LOG_FILE
+exec > >(tee $PROPRO_FULL_LOG_FILE)
+exec 2>&1
 
 function log {
   echo -e "$1"
