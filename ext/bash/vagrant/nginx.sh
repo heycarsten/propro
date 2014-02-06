@@ -1,6 +1,11 @@
 #!/usr/bin/env bash
 function provision-vagrant-nginx {
-  provision-nginx
+  section "Nginx"
+  nginx-install
+  nginx-configure
+  nginx-conf-add-gzip
+  nginx-conf-add-mimetypes
+
   announce "Adding Nginx config for Vagrant"
   tee "$NGINX_SITES_DIR/vagrant.conf" <<EOT
 upstream rack_app {
