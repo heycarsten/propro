@@ -8,7 +8,6 @@ export PG_TUNE_URL="http://pgfoundry.org/frs/download.php/2449/pgtune-$PG_TUNE_V
 export PG_USER="postgres"
 
 function pg-install-packages {
-  announce "Install PosgreSQL Server $PG_VERSION"
   install-packages postgresql-$PG_VERSION libpq-dev postgresql-contrib-$PG_VERSION
 }
 

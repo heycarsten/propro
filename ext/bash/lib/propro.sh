@@ -46,7 +46,12 @@ function announce-item {
 }
 
 function finished {
-  section "Fin."
+  if is-yes $PROPRO_LOG_USE_COLOR; then
+    log "\e[35m\e[1m     Fin.\e[0m"
+  else
+    log "     Fin."
+  fi
+  log ""
 }
 
 function get-tmp-dir {

@@ -24,7 +24,6 @@ EOT
 }
 
 function system-install-packages {
-  announce "Install base packages"
   install-packages $SYSTEM_BASE_PACKAGES
 }
 

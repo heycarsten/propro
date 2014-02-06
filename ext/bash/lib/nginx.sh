@@ -21,7 +21,6 @@ function nginx-install {
   local tmpdir=$(get-tmp-dir)
   cd "$tmpdir"
 
-  announce "Install dependencies"
   install-packages $NGINX_DEPENDENCIES
 
   announce "Download $NGINX_VERSION"
