@@ -7,6 +7,7 @@ module Propro::Package
     lib/pg
     lib/rvm
     lib/nginx
+    lib/node
     lib/redis
     vps/system
     app
@@ -23,6 +24,7 @@ module Propro::Package
     vagrant/pg
     vagrant/redis
     vagrant/rvm
+    vagrant/node
     vagrant/nginx
     lib/extras
   ]

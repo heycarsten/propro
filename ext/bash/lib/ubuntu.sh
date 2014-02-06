@@ -16,6 +16,14 @@ function install-packages {
   aptitude -q -y install $@
 }
 
+function get-archtype {
+  if [ $(getconf LONG_BIT) == 32 ]; then
+    echo 'x86'
+  else
+    echo 'x64'
+  fi
+}
+
 function update-sources {
   apt-get -qq -y update
 }

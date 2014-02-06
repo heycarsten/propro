@@ -1,5 +1,4 @@
 #!/usr/bin/env bash
-
 export REDIS_VERSION="2.8.4" # @specify
 export REDIS_USER="redis"
 export REDIS_CONF_FILE="/etc/redis.conf"

@@ -1,0 +1,51 @@
+#     ____  _________  ____  _________
+#    / __ \/ ___/ __ \/ __ \/ ___/ __ \
+#   / /_/ / /  / /_/ / /_/ / /  / /_/ /
+#  / .___/_/   \____/ .___/_/   \____/
+# /_/              /_/
+#
+# Example provisioner for standalone web server
+#
+
+source :vps
+source :app
+source :db
+
+# vps/system
+set :vps_system_hostname, 'myapp'
+set :vps_system_fqdn, 'web1.myapp.com'
+set :vps_system_admin_authorized_github_users, %w[ ????? ????? ]
+set :vps_system_admin_sudo_password, '??????'
+set :vps_system_private_ip, '???.???.???.???' # Private network IP of VPS
+set :vps_system_admin_user, 'admin'
+provision 'vps/system'
+
+# app
+set :app_domain, 'myapp.com'
+set :app_authorized_github_users, %w[ ????? ????? ????? ]
+provision 'app'
+
+# app/rvm
+set :app_rvm_ruby_version, '2.0.0'
+provision 'app/rvm'
+
+# app/nginx
+provision 'app/nginx'
+
+# app/puma/nginx
+set :app_puma_nginx_access_log_file_name, 'myapp.access.log'
+set :app_puma_nginx_error_log_file_name, 'myapp.error.log'
+provision 'app/puma/nginx'
+
+# db/pg
+set :db_pg_name, 'myapp_production'
+set :db_pg_user, 'myapp'
+provision 'db/pg'
+
+# db/redis
+provision 'db/redis'
+
+# lib/extras
+set :extra_packages, %w[ imagemagick ]
+provision 'extras'
+
