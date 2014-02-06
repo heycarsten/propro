@@ -75,6 +75,7 @@ class Propro::Package::Source
       @can_provision = true
       path = line.match(FUNC_PROVISION_NAME_RANGE)[1]
       @provisioner = path.gsub('-', '/')
+      @src << line
     else
       # pass-through
       @src << line
