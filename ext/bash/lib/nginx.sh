@@ -75,11 +75,10 @@ http {
   client_max_body_size $NGINX_CLIENT_MAX_BODY_SIZE;
   client_body_temp_path /var/spool/nginx-client-body 1 2;
 
-  include /usr/local/nginx/conf/mime.types;
   default_type application/octet-stream;
 
-  include /etc/nginx/conf/*.conf
-  include /etc/nginx/sites/*.conf
+  include /etc/nginx/conf/*.conf;
+  include /etc/nginx/sites/*.conf;
 }
 EOT
 
