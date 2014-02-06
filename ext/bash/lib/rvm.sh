@@ -14,7 +14,7 @@ function rvm-install-for-user {
   su - $1 -c "rvm autolibs read-fail"
 
   announce "Install Ruby $2 for user $1"
-  su - $1 -c "rvm install $1"
+  su - $1 -c "rvm install $2"
 
   announce "Set Ruby $2 as default for user $1"
   su - $1 -c "rvm --default use $2"
