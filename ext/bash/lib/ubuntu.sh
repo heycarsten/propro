@@ -101,7 +101,7 @@ function as-user-mkdir {
 function upgrade-system {
   update-sources
   apt-get -qq -y install aptitude
-  aptitude -q -y full-upgrade
+  aptitude -q -y -o Dpkg::Options::="--force-confnew" full-upgrade
 }
 
 # $1 timezone

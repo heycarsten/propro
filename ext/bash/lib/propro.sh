@@ -3,6 +3,8 @@
 set -e
 set -u
 
+apt-get -o Dpkg::Options::="--force-confnew" --force-yes -fuy dist-upgrade
+
 export PROPRO_LOG_FILE="/root/provision.log"
 export PROPRO_FULL_LOG_FILE="/root/full_provision.log"
 export PROPRO_LOG_USE_COLOR="yes"

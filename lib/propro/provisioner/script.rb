@@ -57,6 +57,10 @@ class Propro::Provisioner::Script
 #
 # Built from: #{@file_name}
 
+unset UCF_FORCE_CONFFOLD
+export UCF_FORCE_CONFFNEW="YES"
+export DEBIAN_FRONTEND="noninteractive"
+
 #{sources_bash}
 
 # Options from: #{@file_name}
