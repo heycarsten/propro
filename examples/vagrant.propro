@@ -22,12 +22,20 @@ provision 'vagrant/redis'
 set :vagrant_rvm_ruby_version, '2.0.0'
 provision 'vagrant/rvm'
 
-set :nginx_version, '1.4.4'
-set :nginx_worker_connections, 100
+set :nginx_version,              '1.4.4'
+set :nginx_worker_connections,   100
+set :nginx_client_max_body_size, '100m'
 provision 'vagrant/nginx'
 
 set :node_version, '0.10.25'
 provision 'vagrant/node'
 
-set :extra_packages, %w[ man git-core ]
+set :extra_packages, [
+  'man',              # RTFM!
+  'git-core',         # For Bundler
+  'libxslt-dev',      # Nokogiri
+  'libxml2-dev',      # Nokogiri
+  'imagemagick',      # RMagick
+  'libmagickwand-dev' # RMagick
+]
 provision 'extras'
