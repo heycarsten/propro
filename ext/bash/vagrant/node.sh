@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-function vagrant-provision-node {
+function provision-vagrant-node {
   section "Node.js"
   node-install
 }
