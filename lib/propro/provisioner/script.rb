@@ -23,9 +23,9 @@ class Propro::Provisioner::Script
     ],
     vagrant: %w[
       vagrant
-      vagrant/rvm
       vagrant/system
       vagrant/pg
+      vagrant/rvm
       vagrant/nginx
     ]
   }
