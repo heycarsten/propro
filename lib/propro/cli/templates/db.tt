@@ -5,8 +5,7 @@
 # /_/              /_/
 #
 # Example provisioner for front-end app server
-
-source :lib
+#
 source :vps
 source :extras
 source :db

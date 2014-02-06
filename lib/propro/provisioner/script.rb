@@ -42,6 +42,7 @@ class Propro::Provisioner::Script
     @commands = []
     @server   = nil
     @password = nil
+    source :lib
   end
 
   def load_file(file)
