@@ -10,6 +10,14 @@ require 'propro/provisioner/option'
 module Propro
   class Error < StandardError; end
 
+  BANNER = <<'DOC'
+    ____  _________  ____  _________
+   / __ \/ ___/ __ \/ __ \/ ___/ __ \
+  / /_/ / /  / /_/ / /_/ / /  / /_/ /
+ / .___/_/   \____/ .___/_/   \____/
+/_/              /_/
+DOC
+
   module_function
 
   def root
