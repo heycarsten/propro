@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 function vagrant-pg-create-user {
-  announce "Create database user: $1"
+  announce "Create database user: $VAGRANT_USER"
   su - $PG_USER -c "createuser -s $VAGRANT_USER"
 }
 
