@@ -1,0 +1,25 @@
+#     ____  _________  ____  _________
+#    / __ \/ ___/ __ \/ __ \/ ___/ __ \
+#   / /_/ / /  / /_/ / /_/ / /  / /_/ /
+#  / .___/_/   \____/ .___/_/   \____/
+# /_/              /_/
+#
+# Example provisioner for <%= @desc %>
+#
+
+<%- @paths.each do |path| -%>
+source :<%= path %>
+<%- end -%>
+
+<%- @sources.each do |source| -%>
+<%- has_no_exports = source.specified_exports.empty? -%>
+<%- next if has_no_exports && !source.can_provision? -%>
+# <%= source.name %>
+<%- source.specified_exports.each do |export| -%>
+<%= export.to_ruby %>
+<%- end -%>
+<%- if source.can_provision? -%>
+provision "<%= source.provisioner %>"
+<%- end -%>
+
+<%- end -%>

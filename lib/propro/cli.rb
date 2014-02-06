@@ -3,20 +3,39 @@ require 'thor'
 class Propro::CLI < Thor
   include Thor::Actions
 
+  INIT_TEMPLATES = {
+    db: {
+      paths: %w[ vps db ],
+      desc: 'backend database server'
+    },
+    app: {
+      paths: %w[ vps app ],
+      desc: 'frontend application server'
+    },
+    web: {
+      paths: %w[ vps app db ],
+      desc: 'standalone web server'
+    },
+    vagrant: {
+      paths: %w[ vagrant ],
+      desc: 'standalone Vagrant development VM'
+    }
+  }
+
   def self.source_root
     File.join(File.dirname(__FILE__), 'cli/templates')
   end
 
   desc 'init NAME', 'Creates a Propro script with the file name NAME'
   option :template, aliases: '-t', enum: %w[ db app web vagrant ], default: 'web'
-  def init(name = nil)
-    @packages = Propro.packages
-    file = if name
-      absolute_path(name)
-    else
-      File.join(Dir.pwd, 'provision.propro')
-    end
-    template "#{options[:template]}.tt", file
+  def init(outname = nil)
+    key      = options[:template].to_sym
+    outfile  = absolute_path(outname || "#{key}.propro")
+    type     = INIT_TEMPLATES[key]
+    @paths   = type[:paths]
+    @desc    = type[:desc]
+    @sources = Propro::Package.sources_for_paths('lib', *@paths)
+    template 'init.tt', outfile
   end
 
   desc 'build INPUT', 'Takes a Propro script INPUT and generates a Bash provisioner OUTPUT'
@@ -75,8 +94,8 @@ class Propro::CLI < Thor
       puts
       session.exec(remote_script_path)
     end
-
-    say_event 'done', "Disconnected from #{user}@#{address}"
+  rescue IOError # uggghhhhhhhhhh
+    say_event 'done', "#{address} is rebooting"
   end
 
   private

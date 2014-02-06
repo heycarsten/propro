@@ -18,32 +18,11 @@ module Propro
 /_/              /_/
 DOC
 
+  COMMENT_BANNER = BANNER.each_line.map { |l| "# #{l.chomp}" }.join("\n")
+
   module_function
 
   def root
-    File.expand_path(File.dirname(__FILE__))
-  end
-
-  def cli_root
-    File.join(root, 'propro/cli')
-  end
-
-  def packages_root
-    File.expand_path(File.join(root, '../ext/bash'))
-  end
-
-  def package_files
-    @package_files ||= Dir[File.join(packages_root, '**/*.sh')]
-  end
-
-  def packages
-    files = Package::SORT_PACKAGES.dup
-    package_files.each do |f|
-      name = f.match(%r{/ext/bash/([a-z0-9_\-/]+)\.sh})[1]
-      files.push(name) if !files.include?(name)
-    end
-    @packages ||= files.map do |f|
-      Package::Source.new(f)
-    end
+    File.expand_path(File.join(File.dirname(__FILE__), '..'))
   end
 end

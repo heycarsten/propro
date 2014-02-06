@@ -5,6 +5,8 @@ function vagrant-pg-create-user {
 }
 
 function provision-vagrant-pg {
-  provision-pg
+  section "PostgreSQL Server"
+  pg-install-packages
+  pg-tune
   vagrant-pg-create-user
 }

@@ -5,7 +5,6 @@ export REDIS_USER="redis"
 export REDIS_CONF_FILE="/etc/redis.conf"
 export REDIS_DATA_DIR="/var/lib/redis"
 export REDIS_FORCE_64BIT="no" # @specify Force 64bit build even if available memory is lte 4GiB
-export REDIS_BIND_IP="" # @specify
 REDIS_URL="http://download.redis.io/releases/redis-$REDIS_VERSION.tar.gz"
 
 function redis-install {
@@ -58,21 +57,4 @@ stop on shutdown
 exec sudo -u $REDIS_USER /usr/local/bin/redis-server $REDIS_CONF_FILE
 respawn
 EOT
-}
-
-# $1 ip (private IP of server)
-function redis-bind-ip {
-  announce "Bind Redis to local network interface"
-  tee -a $REDIS_CONF_FILE <<EOT
-bind $1
-EOT
-}
-
-function provision-redis {
-  section "Redis"
-  redis-install
-
-  if [ $REDIS_BIND_IP ]; then
-    redis-bind-ip $SYSTEM_PRIVATE_IP
-  fi
 }

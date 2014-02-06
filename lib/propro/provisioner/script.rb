@@ -1,35 +1,4 @@
 class Propro::Provisioner::Script
-  EXPAND_SOURCES = {
-    lib: %w[
-      lib/propro
-      lib/ubuntu
-      lib/system
-      lib/rvm
-      lib/nginx
-      lib/redis
-      lib/pg
-    ],
-    app: %w[
-      app
-      app/rvm
-      app/pg
-      app/nginx
-      app/sidekiq
-      app/puma
-      app/puma/nginx
-    ],
-    vps: %w[
-      vps/system
-    ],
-    vagrant: %w[
-      vagrant
-      vagrant/system
-      vagrant/pg
-      vagrant/rvm
-      vagrant/nginx
-    ]
-  }
-
   def self.load(file)
     script = new
     script.load_file(file)
@@ -47,6 +16,7 @@ class Propro::Provisioner::Script
 
   def load_file(file)
     @file = file
+    @file_name = File.basename(@file)
     instance_eval(File.read(file))
   end
 
@@ -69,11 +39,7 @@ class Propro::Provisioner::Script
   end
 
   def source(src)
-    if (expands = EXPAND_SOURCES[src])
-      @sources.concat(expands.map { |s| Propro::Package::Source.new(s) })
-    else
-      @sources << Propro::Package::Source.new(src)
-    end
+    @sources.concat(Propro::Package.sources_for_path(src))
   end
 
   def set(key, value)
@@ -87,13 +53,17 @@ class Propro::Provisioner::Script
   def to_bash
     <<-SH
 #!/usr/bin/env bash
+#{Propro::COMMENT_BANNER}
+#
+# Built from: #{@file_name}
+
 set -e
 set -u
 exec &> /root/full_provision.log
 
 #{sources_bash}
 
-# #{@file}
+# Options from: #{@file_name}
 #{options_bash}
 
 function main {
@@ -110,11 +80,11 @@ SH
   private
 
   def options_bash
-    @options.map(&:to_bash).join("\n")
+    @options.map(&:to_bash).join("\n").strip
   end
 
   def sources_bash
-    @sources.map(&:to_bash).join
+    @sources.map(&:to_bash).join("\n").strip
   end
 
   def commands_bash

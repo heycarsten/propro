@@ -43,9 +43,3 @@ function pg-createdb {
     done
   fi
 }
-
-function provision-pg {
-  section "PostgreSQL Server"
-  pg-install-packages
-  pg-tune
-}
