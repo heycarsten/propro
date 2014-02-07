@@ -38,7 +38,6 @@ function system-configure-locale {
 
 function system-upgrade {
   announce "Update and upgrade system packages"
-  ucf --purge /boot/grub/menu.lst
   upgrade-system
 }
 

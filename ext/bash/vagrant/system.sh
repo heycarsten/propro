@@ -9,8 +9,13 @@ v
 EOT
 }
 
+function vagrant-system-purge-grub-menu-config {
+  ucf --purge /boot/grub/menu.lst
+}
+
 function provision-vagrant-system {
   section "Vagrant System"
+  vagrant-system-purge-grub-menu-config
   system-upgrade
   system-configure-timezone
   system-configure-locale
