@@ -2,7 +2,7 @@
 
 _**Provision servers with Bash :trollface:**_
 
-Propro was developed against Ubuntu Server 12.04 LTS (x86-32 and x86-64) on Vagrant with VMware Fusion and Linode. It _could_ work with other distributions, but right now it does not.
+Propro was developed against Ubuntu Server 12.04 LTS 32bit and 64bit. It's been tested on Vagrant with VMware Fusion and Virtual Box, and on Linode. It _could_ (and might) work with other distributions and providers, but right now it only supports my personal use-cases.
 
 #### Creating a Proscript (it's just Ruby)
 
