@@ -60,7 +60,8 @@ module Propro
       require 'net/scp'
       require 'io/console'
 
-      puts "\e[2m#{Propro.banner}\e[0m"
+      puts Propro.color_banner
+      puts
 
       script   = Script.load(script_path)
       address  = (options[:server] || script.get_server)
