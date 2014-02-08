@@ -10,7 +10,7 @@ describe Propro::Option do
   end
 
   it 'handles array values' do
-    assert_option %[a b c], '"a b c"'
+    assert_option ['a', 'b', 'c'], '"a b c"'
   end
 
   it 'handles integer values' do

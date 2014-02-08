@@ -19,7 +19,7 @@ module Propro
     def value
       case @value
       when Array
-        %{"#{val.join(' ')}"}
+        %{"#{@value.join(' ')}"}
       when true
         %{"yes"}
       when false
