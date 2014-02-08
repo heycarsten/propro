@@ -5,7 +5,7 @@ function vagrant-system-install-user-aliases {
 alias be="bundle exec"
 alias r="bin/rails"
 alias v="cd $VAGRANT_DATA_DIR"
-cd ~/$VAGRANT_DATA_DIR
+cd $VAGRANT_DATA_DIR
 EOT
 }
 
