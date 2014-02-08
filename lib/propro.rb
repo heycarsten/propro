@@ -1,16 +1,15 @@
 require 'propro/version'
 require 'propro/package'
-require 'propro/package/export'
-require 'propro/package/source'
-require 'propro/provisioner'
-require 'propro/provisioner/script'
-require 'propro/provisioner/command'
-require 'propro/provisioner/option'
+require 'propro/export'
+require 'propro/source'
+require 'propro/script'
+require 'propro/command'
+require 'propro/option'
 
 module Propro
   class Error < StandardError; end
 
-  BANNER = <<'DOC'
+  BANNER = <<'DOC'.chomp
     ____  _________  ____  _________
    / __ \/ ___/ __ \/ __ \/ ___/ __ \
   / /_/ / /  / /_/ / /_/ / /  / /_/ /
@@ -18,9 +17,15 @@ module Propro
 /_/              /_/
 DOC
 
-  COMMENT_BANNER = BANNER.each_line.map { |l| "# #{l.chomp}" }.join("\n")
-
   module_function
+
+  def banner
+    BANNER
+  end
+
+  def comment_banner
+    @comment_banner ||= banner.each_line.map { |l| '# ' + l }.join
+  end
 
   def root
     File.expand_path(File.join(File.dirname(__FILE__), '..'))
