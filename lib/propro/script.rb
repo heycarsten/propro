@@ -53,29 +53,29 @@ module Propro
 
     def to_bash
       <<-SH
-  #!/usr/bin/env bash
-  #{Propro.comment_banner}
-  #
-  # Built from: #{@file_name}
+#!/usr/bin/env bash
+#{Propro.comment_banner}
+#
+# Built from: #{@file_name}
 
-  unset UCF_FORCE_CONFFOLD
-  export UCF_FORCE_CONFFNEW="YES"
-  export DEBIAN_FRONTEND="noninteractive"
+unset UCF_FORCE_CONFFOLD
+export UCF_FORCE_CONFFNEW="YES"
+export DEBIAN_FRONTEND="noninteractive"
 
-  #{sources_bash}
+#{sources_bash}
 
-  # Options from: #{@file_name}
-  #{options_bash}
+# Options from: #{@file_name}
+#{options_bash}
 
-  function main {
-    #{commands_bash}
-    finished
-    reboot-system
-  }
+function main {
+  #{commands_bash}
+  finished
+  reboot-system
+}
 
-  main
+main
 
-  SH
+SH
     end
 
     private

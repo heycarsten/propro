@@ -57,8 +57,8 @@ module Propro
 
     def to_bash
       <<-SH
-  # Propro package: #{file_name}
-  #{@src}
+# Propro package: #{file_name}
+#{@src}
       SH
     end
 
