@@ -41,8 +41,8 @@ stop on runlevel [06]
 # /path/to/app2
 env APP_PUMA_CONF="$APP_PUMA_CONF_FILE"
 pre-start script
-  for i in `cat \$APP_PUMA_CONF`; do
-    app=`echo \$i | cut -d , -f 1`
+  for i in \`cat \$APP_PUMA_CONF\`; do
+    app=\`echo \$i | cut -d , -f 1\`
     logger -t "puma-manager" "Starting \$app"
     start puma app=\$app
   done
