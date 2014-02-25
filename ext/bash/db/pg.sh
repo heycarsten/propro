@@ -5,7 +5,7 @@ export DB_PG_BIND_IP="" # @specify Bind Postgres to specific interface
 export DB_PG_TRUST_IPS="" # @specify Private network IPs allowed to connect to Postgres
 
 function db-pg-bind-ip {
-  if [ -z DB_PG_BIND_IP ]; then
+  if [ -z $DB_PG_BIND_IP ]; then
     return 0
   fi
 
