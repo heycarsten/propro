@@ -19,6 +19,8 @@ module Propro
       app/puma
       app/puma/nginx
       app/node
+      app/unicorn
+      app/unicorn/nginx
       db/pg
       db/redis
       vagrant
