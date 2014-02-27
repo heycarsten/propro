@@ -17,15 +17,15 @@ function provision-app-unicorn {
   announce "Create init.d for Unicorn"
 
   tee /etc/init.d/unicorn <<EOT
-\#!/bin/sh
+#!/bin/sh
 set -u
 set -e
 
-\# copy this to /etc/init.d/unicorn
-\# set owner to root:root
-\# chmod a+x
-\# update-rc.d unicorn defaults
-\# adapted from http://gist.github.com/308216
+# copy this to /etc/init.d/unicorn
+# set owner to root:root
+# chmod a+x
+# update-rc.d unicorn defaults
+# adapted from http://gist.github.com/308216
 APP_ROOT=$(get-app-unicorn-app-root)
 PID=$(get-app-unicorn-pid-file)
 OLD_PID="\$PID.oldbin"
@@ -83,5 +83,13 @@ esac
 EOT
 
 chmod +x /etc/init.d/unicorn
+
+announce "Adding sudoers entries"
+for event in start status stop reload restart; do
+  tee -a /etc/sudoers.d/unicorn.entries <<EOT
+$APP_USER ALL=NOPASSWD: /etc/init.d/unicorn $event
+EOT
+done
+
 }
 
