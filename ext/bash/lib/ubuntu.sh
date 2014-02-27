@@ -28,6 +28,10 @@ function update-sources {
   apt-get -qq -y update
 }
 
+function add-repository {
+  add-apt-repository -y $1
+}
+
 # $1 unix user
 # $2 service name
 # $3 service args
