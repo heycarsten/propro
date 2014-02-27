@@ -16,11 +16,13 @@ module Propro
       app/pg
       app/nginx
       app/sidekiq
+      app/monit
       app/puma
       app/puma/nginx
       app/node
       app/unicorn
       app/unicorn/nginx
+      app/unicorn/monit
       db/pg
       db/redis
       vagrant

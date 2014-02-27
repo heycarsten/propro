@@ -4,6 +4,14 @@ export APP_UNICORN_CONFIG_FILE_NAME="unicorn.rb" # @specify
 
 APP_UNICORN_CONFIG_FILE_RELATIVE="$APP_UNICORN_CONFIG_DIR_RELATIVE/$APP_UNICORN_CONFIG_FILE_NAME"
 
+function get-app-unicorn-app-root {
+  echo "$(get-app-current-dir)"
+}
+
+function get-app-unicorn-pid-file {
+  echo "$(get-app-unicorn-app-root)/log/unicorn.pid"
+}
+
 function provision-app-unicorn {
   section "Unicorn"
   announce "Create init.d for Unicorn"
@@ -18,8 +26,8 @@ set -e
 # chmod a+x
 # update-rc.d unicorn defaults
 # adapted from http://gist.github.com/308216
-APP_ROOT=$(get-app-current-dir)
-PID=\$APP_ROOT/log/unicorn.pid
+APP_ROOT=$(get-app-unicorn-app-root)
+PID=$(get-app-unicorn-pid-file)
 OLD_PID="\$PID.oldbin"
 ENV=$(get-app-env)
 HOME=$(get-app-home)
