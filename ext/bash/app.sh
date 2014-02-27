@@ -51,7 +51,7 @@ function get-app-home {
   echo "/home/$(get-app-user)"
 }
 
-function get-app-env{
+function get-app-env {
   echo $APP_ENV
 }
 
