@@ -8,7 +8,7 @@ function provision-app-monit {
   monit-install
   mv /etc/monit/monitrc /etc/monit/monitrc.defaults
   touch /etc/monit/monitrc
-  tee "/etc/monit/monitrc/" << EOT
+  tee "/etc/monit/monitrc" << EOT
 \# copy into /etc/monit/monitrc
 \# set ownership to root:root
 \# set permissions to 600
