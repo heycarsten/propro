@@ -66,8 +66,6 @@ module Propro
 
     def load_line(line)
       case
-      when line.start_with?(COMMENT_BEGIN)
-        # skip comments
       when line.start_with?(EXPORT_BEGIN)
         # collect exported variables from bash modules
         @exports << Export.parse(line)
