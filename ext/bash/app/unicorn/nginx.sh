@@ -14,7 +14,7 @@ upstream $(get-app-id) {
   server 127.0.0.1:$APP_UNICORN_UPSTREAM_PORT fail_timeout=0;
 }
 
-# Redirect www.$APP_DOMAIN => $APP_DOMAIN
+\# Redirect www.$APP_DOMAIN => $APP_DOMAIN
 server {
   listen 80;
   listen 443 ssl;
@@ -26,7 +26,7 @@ server {
   server_name $APP_DOMAIN;
   root $(get-app-current-public-dir);
 
-  access_log $APP_UNICORN_NGINX_ACCESS_LOG_FILE main;
+  access_log $APP_UNICORN_NGINX_ACCESS_LOG_FILE combined;
   error_log  $APP_UNICORN_NGINX_ERROR_LOG_FILE notice;
 
   location ~* \.(eot|ttf|woff)\$ {

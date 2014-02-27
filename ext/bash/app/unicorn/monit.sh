@@ -10,19 +10,6 @@ APP_UNICORN_NGINX_ERROR_LOG_FILE="$NGINX_LOG_DIR/$APP_UNICORN_NGINX_ERROR_LOG_FI
 
 function provision-app-unicorn-monit {
   tee "/etc/monit/conf.d/$APP_DOMAIN.conf" <<EOT
-# copy into /etc/monit/monitrc
-# set ownership to root:root
-# set permissions to 600
-set daemon 60
-set logfile syslog facility log_daemon
-set mailserver localhost
-#set alert admin@domain.com
-
-set httpd port 2812
-
-allow localhost
-allow admin:monit
-
 check process unicorn_app
   with pidfile $(get-app-unicorn-pid-file)
   group unicorn

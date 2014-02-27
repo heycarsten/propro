@@ -17,15 +17,15 @@ function provision-app-unicorn {
   announce "Create init.d for Unicorn"
 
   tee /etc/init.d/unicorn <<EOT
-#!/bin/sh
+\#!/bin/sh
 set -u
 set -e
 
-# copy this to /etc/init.d/unicorn
-# set owner to root:root
-# chmod a+x
-# update-rc.d unicorn defaults
-# adapted from http://gist.github.com/308216
+\# copy this to /etc/init.d/unicorn
+\# set owner to root:root
+\# chmod a+x
+\# update-rc.d unicorn defaults
+\# adapted from http://gist.github.com/308216
 APP_ROOT=$(get-app-unicorn-app-root)
 PID=$(get-app-unicorn-pid-file)
 OLD_PID="\$PID.oldbin"
@@ -35,16 +35,15 @@ HOME=$(get-app-home)
 cd \$APP_ROOT || exit 1
 
 start_unicorn () {
-        su deploy -c "cd \${APP_ROOT} && bin/unicorn -E \${ENV} -D -o 127.0.0.1 -c \${APP_ROOT}/config
-/unicorn.rb \${APP_ROOT}/config.ru"
+        su deploy -c "cd \${APP_ROOT} && bin/unicorn -E \${ENV} -D -o 127.0.0.1 -c \${APP_ROOT}/config/unicorn.rb \${APP_ROOT}/config.ru"
 }
 
 sig () {
-        test -s "\$PID" && kill -\$1 `cat \$PID`
+        test -s "\$PID" && kill -\$1 \`cat \$PID\`
 }
 
 oldsig () {
-        test -s \$OLD_PID && kill -\$1 `cat \$OLD_PID`
+        test -s \$OLD_PID && kill -\$1 \`cat \$OLD_PID\`
 }
 
 
