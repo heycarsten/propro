@@ -1,11 +1,28 @@
 #!/usr/bin/env bash
-function monit-install {
+function app-monit-install {
   install-packages monit
 }
 
-function provision-app-monit {
-  section "Monit"
-  monit-install
+function app-monit-logrotate {
+  announce "Create logrotate for Monit"
+  tee /etc/logrotate.d/monit <<EOT
+/var/log/monit.log {
+        rotate 4
+        weekly
+        minsize 1M
+        missingok
+        create 640 root adm
+        notifempty
+        compress
+        delaycompress
+        postrotate
+                invoke-rc.d monit reload > /dev/null
+        endscript
+}
+EOT
+}
+
+function app-monit-configure {
   mv /etc/monit/monitrc /etc/monit/monitrc.defaults
   touch /etc/monit/monitrc
   tee "/etc/monit/monitrc" << EOT
@@ -24,4 +41,11 @@ allow admin:monit
 
 include /etc/monit/conf.d/*
 EOT
+}
+
+function provision-app-monit {
+  section "Monit"
+  app-monit-install
+  app-monit-configure
+  app-monit-logrotate
 }

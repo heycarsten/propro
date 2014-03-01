@@ -12,8 +12,7 @@ function get-app-unicorn-pid-file {
   echo "$(get-app-unicorn-app-root)/log/unicorn.pid"
 }
 
-function provision-app-unicorn {
-  section "Unicorn"
+function app-unicorn-install {
   announce "Create init.d for Unicorn"
 
   tee /etc/init.d/unicorn <<EOT
@@ -84,12 +83,41 @@ EOT
 
 chmod +x /etc/init.d/unicorn
 
-announce "Adding sudoers entries"
-for event in start status stop reload restart; do
-  tee -a /etc/sudoers.d/unicorn.entries <<EOT
+}
+
+function app-unicorn-sudoers {
+  announce "Adding sudoers entries"
+  for event in start status stop reload restart upgrade rotate; do
+    tee -a /etc/sudoers.d/unicorn.entries <<EOT
 $APP_USER ALL=NOPASSWD: /etc/init.d/unicorn $event
 EOT
-done
+  done
+}
 
+function app-unicorn-logrotate {
+  announce "Create logrotate for Unicorn"
+  tee /etc/logrotate.d/unicorn <<EOT
+$(get-app-shared-dir)/log/*.log {
+        daily
+        missingok
+        rotate 90
+        compress
+        delaycompress
+        notifempty
+        dateext
+        create 640 deploy deploy
+        sharedscripts
+        postrotate
+                /etc/init.d/unicorn rotate
+        endscript
+}
+EOT
+}
+
+function provision-app-unicorn {
+  section "Unicorn"
+  app-unicorn-install
+  app-unicorn-sudoers
+  app-unicorn-logrotate
 }
 
