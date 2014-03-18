@@ -2,9 +2,9 @@
 
 _**Provision servers with Bash :trollface:**_
 
-## Warning
+## _Warning_
 
-__**Propro is pre-release software, it works for me but it might not work for you.**__
+_**Propro is pre-release software, it works for me but it might not work for you.**_
 
 Propro was developed against Ubuntu Server 12.04 LTS 32bit and 64bit. It's been
 tested on Vagrant with VMware Fusion and Virtual Box, and on Linode. It _could_
