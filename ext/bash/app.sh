@@ -5,6 +5,7 @@ export APP_DOMAIN="" # @require
 export APP_AUTHORIZED_GITHUB_USERS="" # @require
 export APP_USER="deploy" # @specify
 export APPS_DIR="/sites" # @specify
+export APP_ENV="production" # @specify
 
 function get-app-dir {
   echo "$APPS_DIR/$APP_DOMAIN"
@@ -40,6 +41,18 @@ function get-app-releases-dir {
 
 function get-app-current-public-dir {
   echo "$(get-app-current-dir)/public"
+}
+
+function get-app-user {
+  echo $APP_USER
+}
+
+function get-app-home {
+  echo "/home/$(get-app-user)"
+}
+
+function get-app-env {
+  echo $APP_ENV
 }
 
 function get-app-id {
