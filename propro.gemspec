@@ -8,14 +8,14 @@ Gem::Specification.new do |spec|
   spec.version       = Propro::VERSION
   spec.authors       = ['Carsten Nielsen']
   spec.email         = ['heycarsten@gmail.com']
-  spec.summary       = 'Provision servers with Bash'
-  spec.description   = ''
-  spec.homepage      = 'http://heycarsten.com/propro'
+  spec.summary       = 'A standalone server provisioning tool'
+  spec.description   = 'Propro is a tool for provisioning remote servers.'
+  spec.homepage      = 'http://github.com/heycarsten/propro'
   spec.license       = 'GNU v2'
 
   spec.files         = `git ls-files -z`.split("\x0")
-  spec.executables   = spec.files.grep(%r{^bin/}) { |f| File.basename(f) }
-  spec.test_files    = spec.files.grep(%r{^(test|spec|features)/})
+  spec.executables   = spec.files.grep(/^bin\//) { |f| File.basename(f) }
+  spec.test_files    = spec.files.grep(/^test\//)
   spec.require_paths = ['lib']
 
   spec.add_dependency 'thor',    '~> 0.18'
