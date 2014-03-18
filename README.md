@@ -2,7 +2,7 @@
 
 _**Provision servers with Bash :trollface:**_
 
-## _Warning_
+### Warning
 
 _**Propro is pre-release software, it works for me but it might not work for you.**_
 
@@ -11,9 +11,7 @@ tested on Vagrant with VMware Fusion and Virtual Box, and on Linode. It _could_
 (and might) work with other distributions and providers, but right now it only
 supports my personal use-cases.
 
-## Using It
-
-### Creating A .propro Script (it's just Ruby)
+### Creating A `.propro` Script
 
 ```sh
 propro init -t vagrant
@@ -88,7 +86,7 @@ provision "extras"
 This generated file contains all of the available provisioners with their
 default options listed above them. The `provision` directives tell Propro that
 you want to run the provisioner for that given module. Seems overly complicated?
-It probably is and my next goal for Propro is to massively simplify it's
+It probably is, and my next goal for Propro is to massively simplify it's
 organization and the `.propro` syntax.
 
 ### Building a .propro script
@@ -123,14 +121,14 @@ Propro will ask you for the root password, and then build and run the
 provisioning script remotely while showing you output. Part of the built in
 VPS provisioner is to disable root login access.
 
-## More
+### More
 
 - Check out the [`examples`](/examples) directory for examples of `.propro`
   scripts
 - Check out the [`ext/bash`](/ext/bash) directory to see the actual Bash scripts
   that are used for provisioning.
 
-## Thanks
+### Thanks
 
 - Existing tools that made me so crazy I ended up doing this.
 - My coworkers and friends [@elucid](https://github.com/elucid) [@ghedamat](https://github.com/ghedamat) [@drteeth](https://github.com/drteeth) [@minusfive](https://github.com/minusfive) for reviewing, fiddling with, and using Propro during it's initial development.
