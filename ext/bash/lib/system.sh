@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 export SYSTEM_SHMALL_PERCENT="0.75" # @specify
 export SYSTEM_SHMMAX_PERCENT="0.5" # @specify
-export SYSTEM_BASE_PACKAGES="curl vim-nox less htop build-essential openssl"
+export SYSTEM_BASE_PACKAGES="curl vim-nox less htop build-essential openssl git tree python-software-properties"
 export SYSTEM_TIMEZONE="Etc/UTC" # @specify
 export SYSTEM_LOCALE="en_US.UTF-8" # @specify
 export SYSTEM_SOURCES_PG_KEY_URL="http://apt.postgresql.org/pub/repos/apt/ACCC4CF8.asc"

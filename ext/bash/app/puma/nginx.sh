@@ -25,7 +25,7 @@ server {
   server_name $APP_DOMAIN;
   root $(get-app-current-public-dir);
 
-  access_log $APP_PUMA_NGINX_ACCESS_LOG_FILE main;
+  access_log $APP_PUMA_NGINX_ACCESS_LOG_FILE combined;
   error_log  $APP_PUMA_NGINX_ERROR_LOG_FILE notice;
 
   location ~* \.(eot|ttf|woff)\$ {

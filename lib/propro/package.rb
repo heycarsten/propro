@@ -18,6 +18,7 @@ module Propro
       app/sidekiq
       app/puma
       app/puma/nginx
+      app/node
       db/pg
       db/redis
       vagrant
