@@ -11,7 +11,7 @@ tested on Vagrant with VMware Fusion and Virtual Box, and on Linode. It _could_
 (and might) work with other distributions and providers, but right now it only
 supports my personal use-cases.
 
-### Creating A `.propro` Script
+### Creating A .propro Script
 
 ```sh
 propro init -t vagrant
