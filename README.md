@@ -14,6 +14,7 @@ supports my personal use-cases.
 ### Creating A .propro Script
 
 ```sh
+gem install propro
 propro init -t vagrant
 ```
 
