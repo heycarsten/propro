@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-export NGINX_VERSION="1.4.4" # @specify
+export NGINX_VERSION="1.4.7" # @specify
 export NGINX_USER="nginx"
 export NGINX_CONFIGURE_OPTS="--with-http_ssl_module --with-http_gzip_static_module" # @specify
 export NGINX_CONF_FILE="/etc/nginx.conf"

@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-export NODE_VERSION="0.10.25" # @specify
+export NODE_VERSION="0.10.26" # @specify
 
 function get-node-pkg-name {
   echo "node-v$NODE_VERSION-linux-$(get-archtype)"
