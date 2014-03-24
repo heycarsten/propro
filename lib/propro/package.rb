@@ -10,6 +10,7 @@ module Propro
       lib/nginx
       lib/node
       lib/redis
+      lib/ffmpeg
       vps/system
       app
       app/rvm
@@ -17,6 +18,7 @@ module Propro
       app/nginx
       app/sidekiq
       app/monit
+      app/ffmpeg
       app/puma
       app/puma/nginx
       app/node
@@ -32,6 +34,7 @@ module Propro
       vagrant/rvm
       vagrant/node
       vagrant/nginx
+      vagrant/ffmpeg
       lib/extras
     ]
 
