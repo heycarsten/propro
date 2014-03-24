@@ -25,6 +25,7 @@ function get-archtype {
 }
 
 function update-sources {
+  sed -i "/^# deb.*multiverse/ s/^# //" /etc/apt/sources.list
   apt-get -qq -y update
 }
 
