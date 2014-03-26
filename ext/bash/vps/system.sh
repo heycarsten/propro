@@ -133,6 +133,12 @@ iface eth0:1 inet static
 EOT
   fi
 
+  announce "Adding nameservers"
+  tee /etc/resolvconf/resolv.conf.d/base <<EOT
+nameserver 8.8.8.8
+nameserver 8.8.4.4
+EOT
+
   announce "Restart networking"
   service networking stop && service networking start
 
