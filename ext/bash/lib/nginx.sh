@@ -9,6 +9,7 @@ export NGINX_ACCESS_LOG_FILE_NAME="access.log"
 export NGINX_ERROR_LOG_FILE_NAME="error.log"
 export NGINX_DEPENDENCIES="libpcre3-dev libssl-dev"
 export NGINX_WORKER_COUNT=$(get-processor-count)
+export NGINX_SERVER_NAMES_HASH_BUCKET_SIZE="64"
 export NGINX_PID_FILE="/var/run/nginx.pid"
 export NGINX_CLIENT_MAX_BODY_SIZE="5m" # @specify
 export NGINX_WORKER_CONNECTIONS="2000" # @specify
@@ -73,6 +74,8 @@ http {
 
   client_max_body_size $NGINX_CLIENT_MAX_BODY_SIZE;
   client_body_temp_path /var/spool/nginx-client-body 1 2;
+
+  server_names_hash_bucket_size $NGINX_SERVER_NAMES_HASH_BUCKET_SIZE;
 
   default_type application/octet-stream;
 
