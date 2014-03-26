@@ -74,6 +74,8 @@ http {
   client_max_body_size $NGINX_CLIENT_MAX_BODY_SIZE;
   client_body_temp_path /var/spool/nginx-client-body 1 2;
 
+  server_names_hash_bucket_size 64;
+
   default_type application/octet-stream;
 
   include /etc/nginx/conf/*.conf;
