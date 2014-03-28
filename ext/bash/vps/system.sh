@@ -6,7 +6,8 @@ export VPS_SYSTEM_ADMIN_SUDO_PASSWORD="" # @require
 export VPS_SYSTEM_PRIVATE_IP="" # @specify
 export VPS_SYSTEM_DNS_SERVERS="208.67.222.222 208.67.220.220"
 export VPS_SYSTEM_ADMIN_USER="admin" # @specify
-export VPS_SYSTEM_PRIVATE_NETMASK="255.255.128.0"
+export VPS_SYSTEM_PRIVATE_NETMASK="255.255.128.0" # @specify Default is for Linode, DigitalOcean: 255.255.0.0
+export VPS_SYSTEM_PUBLIC_NETMASK="255.255.255.0" # @specify Default is for Linode, DigitalOcean: 255.255.240.0
 export VPS_SYSTEM_ALLOW_PORTS="www 443 ssh"
 export VPS_SYSTEM_LIMIT_PORTS="ssh"
 export VPS_SYSTEM_ALLOW_PRIVATE_IPS="" # @specify
@@ -120,7 +121,7 @@ auto eth0 eth0:0 eth0:1
 # Public interface
 iface eth0 inet static
  address $ip_addr
- netmask 255.255.255.0
+ netmask $VPS_SYSTEM_PUBLIC_NETMASK
  gateway $gateway
  dns-nameservers $VPS_SYSTEM_DNS_SERVERS
 EOT
