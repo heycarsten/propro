@@ -109,9 +109,11 @@ module Propro
     end
 
     def ask_password
-      STDIN.noecho do
+      pwd = STDIN.noecho do
         ask 'password:'
       end
+      puts
+      pwd
     end
 
     def absolute_path(path)
