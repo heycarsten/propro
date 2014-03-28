@@ -51,6 +51,7 @@ module Propro
       end
     end
 
+    # I hate this immensely
     desc 'deploy SCRIPT', 'Builds a Propro script and then executes it remotely'
     option :server,   aliases: '-s', banner: '<server address>'
     option :password, aliases: '-p', banner: '<server password>'
@@ -84,17 +85,19 @@ module Propro
         session.scp.upload!(script_data, remote_script_path)
         session.exec!("chmod +x #{remote_script_path}")
         session.exec!("touch #{remote_log_path}")
-        tail = session.exec("tail -f #{remote_log_path}") do |ch|
-          ch.on_data do |ch, data|
-            STDOUT.write(data)
-            STDOUT.flush
-          end
+
+        tail = session.exec("tail -f #{remote_log_path}") do |ch, stream, data|
+          STDOUT.write(data)
+          STDOUT.flush
         end
 
         sleep 1 # ughhhhhh
         say_event 'run', remote_script_url
         puts
-        session.exec(remote_script_path)
+
+        session.exec(remote_script_path) do |ch|
+          ch.on_data { } # mute stdout
+        end
       end
     rescue IOError # uggghhhhhhhhhh
       say_event 'done', "#{address} is rebooting"
