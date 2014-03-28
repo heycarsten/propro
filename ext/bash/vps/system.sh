@@ -140,8 +140,6 @@ EOT
   announce "Restart networking"
   service networking stop && service networking start
 
-  announce "Removing DHCP"
-  aptitude -q -y remove isc-dhcp-client dhcp3-client dhcpcd
 }
 
 function provision-vps-system {
