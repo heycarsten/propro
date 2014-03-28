@@ -4,7 +4,7 @@ export VPS_SYSTEM_FQDN="" # @require
 export VPS_SYSTEM_ADMIN_AUTHORIZED_GITHUB_USERS="" # @require
 export VPS_SYSTEM_ADMIN_SUDO_PASSWORD="" # @require
 export VPS_SYSTEM_PRIVATE_IP="" # @specify
-export VPS_SYSTEM_DNS_SERVERS="208.67.222.222 208.67.220.220" # Only used if private IP is specified
+export VPS_SYSTEM_DNS_SERVERS="208.67.222.222 208.67.220.220"
 export VPS_SYSTEM_ADMIN_USER="admin" # @specify
 export VPS_SYSTEM_PRIVATE_NETMASK="255.255.128.0"
 export VPS_SYSTEM_ALLOW_PORTS="www 443 ssh"
@@ -122,13 +122,11 @@ iface eth0 inet static
  address $ip_addr
  netmask 255.255.255.0
  gateway $gateway
+ dns-nameservers $VPS_SYSTEM_DNS_SERVERS
 EOT
 
   if [ $VPS_SYSTEM_PRIVATE_IP ]; then
     tee -a /etc/network/interfaces <<EOT
-
-# DNS Servers
-dns-nameservers $VPS_SYSTEM_DNS_SERVERS
 
 # Private interface
 iface eth0:1 inet static
