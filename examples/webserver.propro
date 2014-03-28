@@ -1,0 +1,126 @@
+# This is an example Propro file that will build a standalone web server on
+# DigitalOcean or Linode
+#
+# To use it, here are the steps you'd take:
+#
+# 0. Read this file and modify it accordingly
+# 1. Create a new Droplet / Linode and specify Ubuntu 12.04 LTS (32 or 64 bit)
+# 2. From your command line run:
+#    $ propro deploy path/to/webserver.propro --server {{PUBLIC_IP_ADDRESS}}
+# 3. Enter the root password you were provided
+# 4. Watch Propro do it's thing, when it's done, wait for your machine to reboot
+# 5. ssh admin@{{PUBLIC_IP_ADDRESS}}
+# 6. Boom.
+#
+# Check out the ext/bash directory to see the avaliable config options, the
+# option names map over to the directory tree, for example, to find where
+# `vps_system_admin_authorized_github_users` is defined, check out:
+# `ext/bash/vps/system.sh`
+
+# Let Propro know about the packages you'd like to load:
+source :vps
+source :app
+source :db
+
+# The machine's name
+set :vps_system_hostname, 'web1'
+
+# Fully Qualified Domain Name for the server, usually: hostname.domain
+set :vps_system_fqdn, 'web1.myapp.com'
+
+# Propro will install the public keys of these GitHub users for the admin user
+# they will be able to ssh into the machine once it's provisioned without a
+# password.
+set :vps_system_admin_authorized_github_users, ['??????', '????????']
+
+# When you ssh into the machine as the admin user, this is the password you
+# will type for sudo:
+set :vps_system_admin_sudo_password, '?????????'
+
+# For DigitalOcean this info can be found in the Settings tab of your Droplet,
+# the default value is for Linode so you can remove this line in that case.
+set :vps_system_public_netmask, '255.255.240.0'
+
+# You don't need to assign a private IP to your VPS, you can remove the
+# following lines if you don't care to use a private IP but it's a really good
+# idea to assign one.
+set :vps_system_private_ip, '10.???.???.???'
+set :vps_system_private_netmask, '255.255.0.0'
+
+# Shared memory configuration preferences, the defaults are for a database
+# server, if you host your database on the same machine as the webserver, it
+# might make sense to tweak these
+set :system_shmall_percent, 0.75
+set :system_shmmax_percent, 0.5
+
+# Let Propro know that you would like to run the vps/system provisioner this
+# will set up a base system, disable root login and create an admin user that
+# the above GitHub users will be able to ssh into.
+provision 'vps/system'
+
+# This is the PG version you'd like to use, any of the versions listed on
+# apt.postgresql.org can be specified.
+set :pg_version, 9.3
+
+# List the extension's you'd like to enable, the defaults are listed below, if
+# you're cool with the defaults, you can delete the line.
+set :pg_extensions, [
+  'btree_gin',
+  'btree_gist',
+  'fuzzystrmatch',
+  'hstore',
+  'intarray',
+  'ltree',
+  'pg_trgm',
+  'tsearch2',
+  'unaccent'
+] # see: http://www.postgresql.org/docs/9.3/static/contrib.html
+
+# This is the name of the database that will be created:
+set :db_pg_name, 'myapp'
+
+# This is the name of the DB user to create:
+set :db_pg_user, 'deploy'
+
+# Run the DB provisioner, this will install PG and create the database for the
+# specified user, if the username is the same as the deploy user you don't
+# need to specify it when you connect to the database:
+provision 'db/pg'
+
+# The domain of the web application that you will be deploying.
+set :app_domain, 'myapp.com'
+
+# Propro will install the public keys of these GitHub users for the deploy user
+# they will be able to ssh into the machine without a password as the deploy
+# user once it's provisioned and will be able to deploy the application.
+set :app_authorized_github_users, ['??????', '??????']
+
+# The name of the deploy user, the app will run as this user:
+set :app_user, 'deploy'
+
+# The base directory to put the application files and data into:
+set :apps_dir, '/sites'
+
+# Run the app provisioner
+provision 'app'
+
+# Specify the Nginx version to compile from source:
+set :nginx_version, '1.4.7'
+
+# Install Nginx and base conf files. All confs are put into
+# /etc/{{service}}.conf
+provision 'app/nginx'
+
+# Specify the version of Node to install
+set :node_version, '0.10.26'
+provision 'app/node'
+
+# Install Ruby 2.0 via RVM
+set :app_rvm_ruby_version, '2.0.0'
+provision 'app/rvm'
+
+# Install Puma service
+provision 'app/puma'
+
+# Install Puma configuration for Nginx
+provision 'app/puma/nginx'
