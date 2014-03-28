@@ -138,8 +138,7 @@ EOT
   fi
 
   announce "Restart networking"
-  service networking stop && service networking start
-
+  service networking restart
 }
 
 function provision-vps-system {
