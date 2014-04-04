@@ -25,7 +25,7 @@ function db-pg-trust-ips {
   for trust_ip in $DB_PG_TRUST_IPS; do
     announce-item "$trust_ip"
     tee -a $PG_HBA_FILE <<EOT
-host all all $trust_ip trust
+host all all $trust_ip/32 trust
 EOT
   done
 }
