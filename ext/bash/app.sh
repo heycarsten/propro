@@ -27,8 +27,8 @@ function get-app-shared-sockets-dir {
   echo "$(get-app-shared-dir)/sockets"
 }
 
-function get-app-config-dir {
-  echo "$(get-app-dir)/config"
+function get-app-shared-config-dir {
+  echo "$(get-app-shared-dir)/config"
 }
 
 function get-app-current-dir {
@@ -75,7 +75,7 @@ function app-create-dirs {
   app-mkdir "$APPS_DIR"
   app-mkdir "$(get-app-dir)"
   app-mkdir "$(get-app-releases-dir)"
-  app-mkdir "$(get-app-config-dir)"
+  app-mkdir "$(get-app-shared-config-dir)"
   app-mkdir "$(get-app-shared-dir)"
   app-mkdir "$(get-app-shared-tmp-dir)"
   app-mkdir "$(get-app-shared-log-dir)"
