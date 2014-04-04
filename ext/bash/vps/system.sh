@@ -88,7 +88,7 @@ function vps-system-configure-firewall {
   for local_ip in $VPS_SYSTEM_ALLOW_PRIVATE_IPS; do
     for port in $VPS_SYSTEM_ALLOW_PRIVATE_PORTS; do
       announce-item "allow $port from $local_ip"
-      ufw allow $port from $local_ip
+      ufw allow from $local_ip to any port $port
     done
   done
 
