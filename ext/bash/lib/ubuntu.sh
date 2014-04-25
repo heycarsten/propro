@@ -39,14 +39,16 @@ function add-repository {
 function add-sudoers-entries {
   for event in start status stop reload restart; do
     if [ $3 ]; then
-      tee -a /etc/sudoers.d/$2.entries <<EOT
+      tee -a /etc/sudoers.d/$2-entries <<EOT
 $1 ALL=NOPASSWD: /sbin/$event $2 $3
 EOT
     else
-      tee -a /etc/sudoers.d/$2.entries <<EOT
+      tee -a /etc/sudoers.d/$2-entries <<EOT
 $1 ALL=NOPASSWD: /sbin/$event $2
 EOT
     fi
+
+    chmod 0440 /etc/sudoers.d/$2-entries
   done
 }
 
