@@ -41,7 +41,7 @@ exec /bin/bash <<EOTT
   source \$HOME/.rvm/scripts/rvm
   logger -t sidekiq "Starting worker: \$app"
   cd \$app
-  exec bundle exec sidekiq -C $APP_SIDEKIQ_CONFIG_FILE_RELATIVE -P $APP_SIDEKIQ_PID_FILE_RELATIVE
+  exec bundle exec sidekiq -e $APP_ENV -C $APP_SIDEKIQ_CONFIG_FILE_RELATIVE -P $APP_SIDEKIQ_PID_FILE_RELATIVE
 EOTT
 end script
 
