@@ -17,8 +17,8 @@ stop on runlevel [06]
 env APP_SIDEKIQ_CONF="$APP_SIDEKIQ_CONF_FILE"
 
 pre-start script
-  for i in `cat \$APP_SIDEKIQ_CONF`; do
-    app=`echo \$i | cut -d , -f 1`
+  for i in \`cat \$APP_SIDEKIQ_CONF_FILE\`; do
+    app=\`echo \$i | cut -d , -f 1\`
     logger -t "sidekiq-manager" "Starting \$app"
     start sidekiq app=\$app
   done
