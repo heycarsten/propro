@@ -4,8 +4,11 @@ export PG_EXTENSIONS="btree_gin btree_gist fuzzystrmatch hstore intarray ltree p
 export PG_CONFIG_FILE="/etc/postgresql/$PG_VERSION/main/postgresql.conf"
 export PG_HBA_FILE="/etc/postgresql/$PG_VERSION/main/pg_hba.conf"
 export PG_TUNE_VERSION="0.9.3"
-export PG_TUNE_URL="http://pgfoundry.org/frs/download.php/2449/pgtune-$PG_TUNE_VERSION.tar.gz"
 export PG_USER="postgres"
+
+function get-pg-tune-url {
+  echo "http://pgfoundry.org/frs/download.php/2449/pgtune-$PG_TUNE_VERSION.tar.gz"
+}
 
 function pg-install-packages {
   install-packages postgresql-$PG_VERSION libpq-dev postgresql-contrib-$PG_VERSION
@@ -16,7 +19,7 @@ function pg-tune {
   cd "$tmpdir"
 
   announce "Tune PostgreSQL $PG_VERSION"
-  download $PG_TUNE_URL
+  download $(get-pg-tune-url)
   extract pgtune-$PG_TUNE_VERSION.tar.gz
 
   ./pgtune-$PG_TUNE_VERSION/pgtune -i $PG_CONFIG_FILE -o $PG_CONFIG_FILE.pgtune

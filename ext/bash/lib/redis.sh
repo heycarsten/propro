@@ -4,14 +4,17 @@ export REDIS_USER="redis"
 export REDIS_CONF_FILE="/etc/redis.conf"
 export REDIS_DATA_DIR="/var/lib/redis"
 export REDIS_FORCE_64BIT="no" # @specify Force 64bit build even if available memory is lte 4GiB
-REDIS_URL="http://download.redis.io/releases/redis-$REDIS_VERSION.tar.gz"
+
+function get-redis-url {
+  echo "http://download.redis.io/releases/redis-$REDIS_VERSION.tar.gz"
+}
 
 function redis-install {
   local tmpdir=$(get-tmp-dir)
   cd "$tmpdir"
 
   announce "Download $REDIS_VERSION"
-  download $REDIS_URL
+  download $(get-redis-url)
 
   announce "Extract"
   extract redis-$REDIS_VERSION.tar.gz

@@ -17,6 +17,10 @@ export NGINX_WORKER_CONNECTIONS="2000" # @specify
 NGINX_SITES_DIR="$NGINX_ETC_DIR/sites"
 NGINX_CONF_DIR="$NGINX_ETC_DIR/conf"
 
+function get-nginx-url {
+  echo "http://nginx.org/download/nginx-$NGINX_VERSION.tar.gz"
+}
+
 function nginx-install {
   local tmpdir=$(get-tmp-dir)
   cd "$tmpdir"
@@ -24,7 +28,7 @@ function nginx-install {
   install-packages $NGINX_DEPENDENCIES
 
   announce "Download $NGINX_VERSION"
-  download http://nginx.org/download/nginx-$NGINX_VERSION.tar.gz
+  download $(get-nginx-url)
 
   announce "Extract"
   extract nginx-$NGINX_VERSION.tar.gz

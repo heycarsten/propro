@@ -7,9 +7,17 @@ export FFMPEG_VERSION="git" # @specify (or a version to download: "2.1.4")
 export FFMPEG_YASM_VERSION="1.2.0"
 export FFMPEG_XVID_VERSION="1.3.2"
 
-FFMPEG_URL="http://ffmpeg.org/releases/ffmpeg-$FFMPEG_VERSION.tar.gz"
-FFMPEG_YASM_URL="http://www.tortall.net/projects/yasm/releases/yasm-$FFMPEG_YASM_VERSION.tar.gz"
-FFMPEG_XVID_URL="http://downloads.xvid.org/downloads/xvidcore-$FFMPEG_XVID_VERSION.tar.gz"
+function get-ffmpeg-url {
+  echo "http://ffmpeg.org/releases/ffmpeg-$FFMPEG_VERSION.tar.gz"
+}
+
+function get-ffmpeg-yasm-url {
+  echo "http://www.tortall.net/projects/yasm/releases/yasm-$FFMPEG_YASM_VERSION.tar.gz"
+}
+
+function get-ffmpeg-xvid-url {
+  echo "http://downloads.xvid.org/downloads/xvidcore-$FFMPEG_XVID_VERSION.tar.gz"
+}
 
 function ffmpeg-install {
   local tmpdir=$(get-tmp-dir)
@@ -23,7 +31,7 @@ function ffmpeg-install {
 
   announce-item "Yasm"
   announce-item "> Download"
-  download $FFMPEG_YASM_URL
+  download $(get-ffmpeg-yasm-url)
 
   announce-item "> Extract"
   extract yasm-$FFMPEG_YASM_VERSION.tar.gz
@@ -58,7 +66,7 @@ function ffmpeg-install {
 
   announce-item "Xvid"
   announce-item "> Download"
-  download $FFMPEG_XVID_URL
+  download $(get-ffmpeg-xvid-url)
 
   announce-item "> Extract"
   extract xvidcore-$FFMPEG_XVID_VERSION.tar.gz
@@ -79,7 +87,7 @@ function ffmpeg-install {
     git clone --depth 1 git://source.ffmpeg.org/ffmpeg.git
     cd ffmpeg
   else
-    download $FFMPEG_URL
+    download $(get-ffmpeg-url)
 
     announce "Extract"
     extract ffmpeg-$FFMPEG_VERSION.tar.gz
