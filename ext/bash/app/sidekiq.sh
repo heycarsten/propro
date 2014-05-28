@@ -36,9 +36,9 @@ respawn limit 3 30
 instance \${app}
 
 script
-exec /bin/bash <<EOTT
+exec /bin/bash <<'EOTT'
   export HOME="\$(eval echo ~\$(id -un))"
-  source \$HOME/.rvm/scripts/rvm
+  source "\$HOME/.rvm/scripts/rvm"
   logger -t sidekiq "Starting worker: \$app"
   cd \$app
   exec bundle exec sidekiq -e $APP_ENV -C $APP_SIDEKIQ_CONFIG_FILE_RELATIVE -P $APP_SIDEKIQ_PID_FILE_RELATIVE
@@ -46,9 +46,9 @@ EOTT
 end script
 
 pre-stop script
-exec /bin/bash <<EOTT
+exec /bin/bash <<'EOTT'
   export HOME="\$(eval echo ~\$(id -un))"
-  source \$HOME/.rvm/scripts/rvm
+  source "\$HOME/.rvm/scripts/rvm"
   logger -t sidekiq "Stopping worker: \$app"
   cd \$app
   exec bundle exec sidekiqctl stop $APP_SIDEKIQ_PID_FILE_RELATIVE
