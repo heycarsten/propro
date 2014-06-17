@@ -13,7 +13,7 @@ function get-pg-tune-url {
 
 function pg-install-packages {
   if is-yes $PG_INSTALL_POSTGIS; then
-    install-packages postgresql-$PG_VERSION libpq-dev postgresql-contrib-$PG_VERSION postgresql-$PG_VERSION-postgis
+    install-packages postgresql-$PG_VERSION libpq-dev postgresql-contrib-$PG_VERSION postgresql-$PG_VERSION-postgis-scripts
   else
     install-packages postgresql-$PG_VERSION libpq-dev postgresql-contrib-$PG_VERSION
   fi
