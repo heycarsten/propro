@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 export PG_VERSION="9.3" # @specify
+export PG_INSTALL_POSTGIS="no" # @specify
 export PG_EXTENSIONS="btree_gin btree_gist fuzzystrmatch hstore intarray ltree pg_trgm tsearch2 unaccent" # @specify see: http://www.postgresql.org/docs/9.3/static/contrib.html
 export PG_CONFIG_FILE="/etc/postgresql/$PG_VERSION/main/postgresql.conf"
 export PG_HBA_FILE="/etc/postgresql/$PG_VERSION/main/pg_hba.conf"
@@ -11,7 +12,11 @@ function get-pg-tune-url {
 }
 
 function pg-install-packages {
-  install-packages postgresql-$PG_VERSION libpq-dev postgresql-contrib-$PG_VERSION
+  if is-yes $PG_INSTALL_POSTGIS; then
+    install-packages postgresql-$PG_VERSION libpq-dev postgresql-contrib-$PG_VERSION postgresql-$PG_VERSION-postgis
+  else
+    install-packages postgresql-$PG_VERSION libpq-dev postgresql-contrib-$PG_VERSION
+  fi
 }
 
 function pg-tune {
